@@ -97,7 +97,8 @@ const translations = {
       viewMore: "Ver más proyectos",
       viewLess: "Ver menos proyectos",
       code: "Código",
-      demo: "Demo"
+      demo: "Demo",
+      demoLive: "Visitar Web"
     },
     contact: {
       title: "Conectemos!",
@@ -146,7 +147,8 @@ const translations = {
       viewMore: "View more projects",
       viewLess: "View less projects",
       code: "Code",
-      demo: "Demo"
+      demo: "Demo",
+      demoLive: "Visit Site"
     },
     contact: {
       title: "Let's Connect!",
@@ -164,20 +166,34 @@ const translations = {
 
 const projects = [
   {
-    id: 6,
-    title: "Venus Elegant Spa",
-    type: "Web App & Admin Panel",
+    id: 3,
+    title: "MapHunter",
+    type: "Mobile App",
     description: {
-      es: "Plataforma integral para spa: Website público para reservas y panel administrativo para gestión de citas, servicios y control de redes sociales.",
-      en: "Comprehensive spa platform: Public website for bookings and admin panel for managing appointments, services, and social media control."
+      es: "Juego de búsqueda del tesoro basado en el escaneo de códigos QR. Incluye seguimiento de pistas, ranking en tiempo real, minijuegos desafiantes, una tienda de poderes y mucho más.",
+      en: "Treasure hunt game based on QR code scanning. Features include clue tracking, real-time ranking, challenging minigames, a power-up shop, and more."
     },
-    status: "in-progress",
-    emoji: "💆‍♀️",
-    technologies: ["React", "Vite", "Tailwind CSS", "Supabase", "Framer Motion"],
-    image: "/venus-spa.png",
-    display: "flex",
-    github: "https://github.com/Danirodrigzz/Venus_Spa.git",
-    demo: "https://venus-spa.vercel.app"
+    status: "completed",
+    emoji: "🎮",
+    technologies: ["Flutter", "Dart", "Supabase", "QR Scanner"],
+    image: "/maphunter.jpg",
+    github: "#",
+    demo: "#"
+  },
+  {
+    id: 7,
+    title: "Morna Tech",
+    type: "Website",
+    description: {
+      es: "Rediseño de la página web principal de Morna Tech.",
+      en: "Redesign of the main Morna Tech website."
+    },
+    status: "completed",
+    emoji: "🚀",
+    technologies: ["Node.js", "React", "CSS3"],
+    image: "/morna.png",
+    github: "",
+    demo: "https://home.morna.tech/"
   },
   {
     id: 1,
@@ -190,9 +206,25 @@ const projects = [
     status: "completed",
     emoji: "🎰",
     technologies: ["React", "TypeScript", "Vite", "Supabase", "Tailwind", "Radix UI"],
-    image: "/project-pollita-admin.png",
+    image: "/pollita.jpg",
     github: "#",
     demo: "#"
+  },
+  {
+    id: 6,
+    title: "Venus Elegant Spa",
+    type: "Web App & Admin Panel",
+    description: {
+      es: "Plataforma integral para spa: Website público para reservas y panel administrativo para gestión de citas, servicios y control de redes sociales.",
+      en: "Comprehensive spa platform: Public website for bookings and admin panel for managing appointments, services, and social media control."
+    },
+    status: "completed",
+    emoji: "💆‍♀️",
+    technologies: ["React", "Vite", "Tailwind CSS", "Supabase", "Framer Motion"],
+    image: "/venus-spa.png",
+    display: "flex",
+    github: "https://github.com/Danirodrigzz/Venus_Spa.git",
+    demo: "https://venuselegantspa.com/"
   },
   {
     id: 2,
@@ -208,21 +240,6 @@ const projects = [
     image: "/project-cantina.png",
     github: "https://github.com/Danirodrigzz/la_cantina.git",
     demo: ""
-  },
-  {
-    id: 3,
-    title: "Juego QR",
-    type: "Mobile App",
-    description: {
-      es: "App de gamificación con escaneo QR y Panel Web de administración para gestionar usuarios, pistas y ranking en tiempo real.",
-      en: "Gamification app with QR scanning and Web Admin Panel to manage users, clues, and real-time ranking."
-    },
-    status: "in-progress",
-    emoji: "🎮",
-    technologies: ["Flutter", "Dart", "Supabase", "QR Scanner"],
-    image: "/project-juego-qr.png",
-    github: "#",
-    demo: "#"
   },
   {
     id: 4,
@@ -276,7 +293,7 @@ const skillCategories = [
   {
     title: "Backend",
     icon: icons.database,
-    skills: ["Supabase", "PostgreSQL", "PHP", "REST APIs"]
+    skills: ["Node.js", "Supabase", "PostgreSQL", "PHP", "REST APIs"]
   },
   {
     title: "Tools",
@@ -482,7 +499,7 @@ function App() {
               <button className="btn btn-primary" onClick={() => scrollToSection('proyectos')}>
                 {hero.viewProjects}
               </button>
-              <a href="/Dani_Ro_CV.pdf" download className="btn btn-download">
+              <a href="/Dani_Daniela.CV.pdf" download className="btn btn-download">
                 {icons.download} CV
               </a>
               <a href="https://github.com/Danirodrigzz" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
@@ -624,7 +641,7 @@ function App() {
                     )}
                     {project.demo && project.demo !== '#' && project.demo !== '' && (
                       <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link">
-                        {icons.external} {transProjects.demo}
+                        {icons.external} {(project.id === 6 || project.id === 7) ? transProjects.demoLive : transProjects.demo}
                       </a>
                     )}
                   </div>
@@ -671,11 +688,11 @@ function App() {
                   <span>github.com/Danirodrigzz</span>
                 </div>
               </a>
-              <a href="https://www.linkedin.com/in/daniela-rodr%C3%ADguez-61576231a/" target="_blank" rel="noopener noreferrer" className="contact-link pixel-card pixel-card--sand">
+              <a href="https://www.linkedin.com/in/danielaa-rodriguezz/" target="_blank" rel="noopener noreferrer" className="contact-link pixel-card pixel-card--sand">
                 <span className="contact-link-icon">{icons.linkedin}</span>
                 <div className="contact-link-text">
                   <h4>LinkedIn</h4>
-                  <span>linkedin.com/in/daniela-rodríguez</span>
+                  <span>linkedin.com/in/danielaa-rodriguezz</span>
                 </div>
               </a>
             </div>
@@ -684,7 +701,7 @@ function App() {
             <h3>{contact.ready}</h3>
             <p>{contact.cta}</p>
             <div className="contact-buttons">
-              <a href="/Dani_Ro_CV.pdf" download className="btn btn-download">
+              <a href="/Dani_Daniela.CV.pdf" download className="btn btn-download">
                 {icons.download} {contact.downloadCv}
               </a>
               <a href="mailto:natachaa0424@gmail.com" className="btn btn-primary">
@@ -705,7 +722,7 @@ function App() {
             <a href="https://github.com/Danirodrigzz" target="_blank" rel="noopener noreferrer" className="social-link">
               {icons.github}
             </a>
-            <a href="https://www.linkedin.com/in/daniela-rodríguez-61576231a" target="_blank" rel="noopener noreferrer" className="social-link">
+            <a href="https://www.linkedin.com/in/danielaa-rodriguezz/" target="_blank" rel="noopener noreferrer" className="social-link">
               {icons.linkedin}
             </a>
             <a href="mailto:natachaa0424@gmail.com" className="social-link">
