@@ -499,7 +499,7 @@ function App() {
               <button className="btn btn-primary" onClick={() => scrollToSection('proyectos')}>
                 {hero.viewProjects}
               </button>
-              <a href="/Dani_Daniela.CV.pdf" download className="btn btn-download">
+              <a href="/Dani_Daniela.CV26.pdf" download className="btn btn-download">
                 {icons.download} CV
               </a>
               <a href="https://github.com/Danirodrigzz" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
@@ -701,7 +701,7 @@ function App() {
             <h3>{contact.ready}</h3>
             <p>{contact.cta}</p>
             <div className="contact-buttons">
-              <a href="/Dani_Daniela.CV.pdf" download className="btn btn-download">
+              <a href="/Dani_Daniela.CV26.pdf" download className="btn btn-download">
                 {icons.download} {contact.downloadCv}
               </a>
               <a href="mailto:natachaa0424@gmail.com" className="btn btn-primary">
