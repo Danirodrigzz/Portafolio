@@ -64,11 +64,12 @@ const icons = {
 const translations = {
   es: {
     nav: {
-      home: "[ Inicio ]",
-      about: "[ Sobre Mi ]",
-      skills: "[ Skills ]",
-      projects: "[ Proyectos ]",
-      contact: "[ Contacto ]"
+      home: "Inicio",
+      about: "Sobre Mi",
+      skills: "Skills",
+      experience: "Experiencia",
+      projects: "Proyectos",
+      contact: "Contacto"
     },
     hero: {
       greeting: "Hola, soy",
@@ -88,6 +89,11 @@ const translations = {
       title: "Mis",
       titleSpan: "Skills",
       subtitle: "Las herramientas que uso para crear proyectos increíbles"
+    },
+    experience: {
+      title: "Mi",
+      titleSpan: "Experiencia",
+      subtitle: "Mi trayectoria profesional y roles previos"
     },
     projects: {
       title: "Mis",
@@ -114,11 +120,12 @@ const translations = {
   },
   en: {
     nav: {
-      home: "[ Home ]",
-      about: "[ About Me ]",
-      skills: "[ Skills ]",
-      projects: "[ Projects ]",
-      contact: "[ Contact ]"
+      home: "Home",
+      about: "About Me",
+      skills: "Skills",
+      experience: "Experience",
+      projects: "Projects",
+      contact: "Contact"
     },
     hero: {
       greeting: "Hi, I'm",
@@ -139,6 +146,11 @@ const translations = {
       titleSpan: "Skills",
       subtitle: "The tools I use to create amazing projects"
     },
+    experience: {
+      title: "My",
+      titleSpan: "Experience",
+      subtitle: "My professional background and previous roles"
+    },
     projects: {
       title: "My",
       titleSpan: "Projects",
@@ -148,7 +160,7 @@ const translations = {
       viewLess: "View less projects",
       code: "Code",
       demo: "Demo",
-      demoLive: "Visit Site"
+      demoLive: "Visit Web"
     },
     contact: {
       title: "Let's Connect!",
@@ -181,6 +193,21 @@ const projects = [
     demo: "#"
   },
   {
+    id: 8,
+    title: "MapHunter Landing Page",
+    type: "Landing Page",
+    description: {
+      es: "Sitio web oficial diseñado para presentar las mecánicas de juego, el ranking y captar nuevos usuarios para el ecosistema MapHunter.",
+      en: "Official website designed to showcase game mechanics, ranking, and attract new users to the MapHunter ecosystem."
+    },
+    status: "completed",
+    emoji: "🌐",
+    technologies: ["React", "CSS3", "Framer Motion"],
+    image: "/landing.png",
+    github: "#",
+    demo: "https://www.maphunter.online/"
+  },
+  {
     id: 7,
     title: "Morna Tech",
     type: "Website",
@@ -190,7 +217,7 @@ const projects = [
     },
     status: "completed",
     emoji: "🚀",
-    technologies: ["Node.js", "React", "CSS3"],
+    technologies: ["Next.js", "React", "CSS3"],
     image: "/morna.png",
     github: "",
     demo: "https://home.morna.tech/"
@@ -227,21 +254,6 @@ const projects = [
     demo: "https://venuselegantspa.com/"
   },
   {
-    id: 2,
-    title: "La Cantina",
-    type: "Mobile App",
-    description: {
-      es: "Ecosistema completo: App móvil para gestión de pedidos y Panel Administrativo Web para control de inventario y ventas.",
-      en: "Complete ecosystem: Mobile app for order management and Web Admin Panel for inventory and sales control."
-    },
-    status: "in-progress",
-    emoji: "🍺",
-    technologies: ["React Native", "Expo", "TypeScript", "Zustand"],
-    image: "/project-cantina.png",
-    github: "https://github.com/Danirodrigzz/la_cantina.git",
-    demo: ""
-  },
-  {
     id: 4,
     title: "SOS Grúa",
     type: "Website",
@@ -273,6 +285,21 @@ const projects = [
   }
 ]
 
+const workExperience = [
+  {
+    id: 1,
+    role: "Junior Full-Stack Developer",
+    company: "Morna Tech",
+    period: "2025 - 2026",
+    description: {
+      es: "Participación activa en el desarrollo de múltiples proyectos, incluyendo el exitoso lanzamiento de 'MapHunter'. Desarrollo integral (Full-Stack) de aplicaciones web y móviles y arquitectura de sistemas.",
+      en: "Active participation in the development of multiple projects, including the successful launch of 'MapHunter'. Full-Stack development of web and mobile applications and system architecture."
+    },
+    technologies: ["React", "Next.js", "Flutter", "Supabase"],
+    images: ["/morna-1.jpeg", "/morna-2.jpeg", "/morna-3.jpeg"]
+  }
+]
+
 // Skills data
 const skillCategories = [
   {
@@ -283,7 +310,7 @@ const skillCategories = [
   {
     title: "Web",
     icon: icons.web,
-    skills: ["React", "Vite", "Tailwind", "Radix UI", "Framer Motion"]
+    skills: ["React", "Next.js", "Vite", "Tailwind", "Radix UI", "Framer Motion"]
   },
   {
     title: "Mobile",
@@ -298,7 +325,7 @@ const skillCategories = [
   {
     title: "Tools",
     icon: icons.tools,
-    skills: ["Git", "GitHub", "VS Code", "Figma", "npm", "Vercel"]
+    skills: ["Git", "GitHub", "VS Code", "Figma", "Docker", "Railway", "npm", "Vercel"]
   }
 ]
 
@@ -384,18 +411,52 @@ function useScrollAnimation() {
       { threshold: 0.1 }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
+    const currentRef = ref.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
+      if (currentRef) {
+        observer.unobserve(currentRef)
       }
     }
   }, [])
 
   return [ref, isVisible]
+}
+
+// Image Carousel Component
+function ImageCarousel({ images }) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const next = () => setCurrentIndex((prev) => (prev + 1) % images.length)
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+
+  if (!images || images.length === 0) return null
+
+  return (
+    <div className="carousel-container">
+      <div className="carousel-track" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+        {images.map((img, i) => (
+          <div key={i} className="carousel-slide">
+            <img src={img} alt={`Slide ${i}`} />
+          </div>
+        ))}
+      </div>
+      <button className="carousel-btn carousel-btn--prev" onClick={prev}>❮</button>
+      <button className="carousel-btn carousel-btn--next" onClick={next}>❯</button>
+      <div className="carousel-dots">
+        {images.map((_, i) => (
+          <span 
+            key={i} 
+            className={`carousel-dot ${i === currentIndex ? 'active' : ''}`}
+            onClick={() => setCurrentIndex(i)}
+          ></span>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function App() {
@@ -424,10 +485,11 @@ function App() {
   // Scroll animation refs
   const [aboutRef, aboutVisible] = useScrollAnimation()
   const [skillsRef, skillsVisible] = useScrollAnimation()
+  const [experienceRef, experienceVisible] = useScrollAnimation()
   const [projectsRef, projectsVisible] = useScrollAnimation()
   const [contactRef, contactVisible] = useScrollAnimation()
 
-  const { nav, hero, about, skills, projects: transProjects, contact, footer } = translations[language]
+  const { nav, hero, about, skills, experience: transExperience, projects: transProjects, contact, footer } = translations[language]
 
   return (
     <>
@@ -442,7 +504,9 @@ function App() {
             <li><a href="#inicio" onClick={() => scrollToSection('inicio')}>{nav.home}</a></li>
             <li><a href="#sobre-mi" onClick={() => scrollToSection('sobre-mi')}>{nav.about}</a></li>
             <li><a href="#habilidades" onClick={() => scrollToSection('habilidades')}>{nav.skills}</a></li>
+            <li><a href="#experiencia" onClick={() => scrollToSection('experiencia')}>{nav.experience}</a></li>
             <li><a href="#proyectos" onClick={() => scrollToSection('proyectos')}>{nav.projects}</a></li>
+            <li><a href="#galeria" onClick={() => scrollToSection('galeria')}>{language === 'es' ? 'Galería' : 'Gallery'}</a></li>
             <li><a href="#contacto" onClick={() => scrollToSection('contacto')}>{nav.contact}</a></li>
           </ul>
           <div className="navbar-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -499,7 +563,7 @@ function App() {
               <button className="btn btn-primary" onClick={() => scrollToSection('proyectos')}>
                 {hero.viewProjects}
               </button>
-              <a href="/Dani_Daniela.CV26.pdf" download className="btn btn-download">
+              <a href="/danielacv2026.pdf" download className="btn btn-download">
                 {icons.download} CV
               </a>
               <a href="https://github.com/Danirodrigzz" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
@@ -511,7 +575,7 @@ function App() {
             <div className="hero-avatar">
               <div className="hero-avatar-frame">
                 <img
-                  src="/avatar.png"
+                  src="/yo.jpeg"
                   alt="Daniela Rodríguez - Developer"
                   className="hero-avatar-img"
                 />
@@ -529,9 +593,35 @@ function App() {
           transition: 'all 0.8s ease-out'
         }}>
           <div className="about-image">
-            <div className="about-image-wrapper pixel-card pixel-card--lavender">
-              <div className="about-image-content">
-                <img src="/avatar.png" alt="Daniela" className="about-avatar-img" />
+            <div className="about-image-wrapper pixel-card pixel-card--lavender" style={{ padding: '0' }}>
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div className="terminal-title">dani-dev.sh</div>
+                </div>
+                <div className="terminal-body">
+                  <div className="terminal-line">
+                    <span className="prompt">&gt;</span> <span className="command">whoami</span>
+                  </div>
+                  <div className="terminal-output">Daniela Rodríguez</div>
+                  <div className="terminal-line">
+                    <span className="prompt">&gt;</span> <span className="command">status</span>
+                  </div>
+                  <div className="terminal-output">LVL 99 Full-Stack Developer</div>
+                  <div className="terminal-line">
+                    <span className="prompt">&gt;</span> <span className="command">mission</span>
+                  </div>
+                  <div className="terminal-output">Creating unique digital experiences</div>
+                  <div className="terminal-line">
+                    <span className="prompt">&gt;</span> <span className="command">location</span>
+                  </div>
+                  <div className="terminal-output">Venezuela 🇻🇪</div>
+                  <div className="terminal-line blink">
+                    <span className="prompt">&gt;</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="about-stats">
@@ -597,6 +687,46 @@ function App() {
         </div>
       </section>
 
+      {/* Experience Section */}
+      <section id="experiencia" className="section" ref={experienceRef}>
+        <div className="container" style={{
+          opacity: experienceVisible ? 1 : 0,
+          transform: experienceVisible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'all 0.8s ease-out'
+        }}>
+          <div className="section-header">
+            <h2>{transExperience.title} <span>{transExperience.titleSpan}</span></h2>
+            <p>{transExperience.subtitle}</p>
+          </div>
+          <div className="experience-timeline">
+            {workExperience.map((item) => (
+              <div key={item.id} className="experience-item pixel-card">
+                <div className="experience-date">{item.period}</div>
+                <div className="experience-content">
+                  <h3 className="experience-role">{item.role}</h3>
+                  <h4 className="experience-company">{item.company}</h4>
+                  <p className="experience-desc">{item.description[language]}</p>
+                  <div className="experience-tech">
+                    {item.technologies.map((tech, tIndex) => (
+                      <span key={tIndex} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                  {item.images && (
+                    <button 
+                      className="btn btn-outline" 
+                      onClick={() => scrollToSection('galeria')}
+                      style={{ fontSize: '0.6rem', padding: '0.5rem 1rem' }}
+                    >
+                      {language === 'es' ? 'Ver Fotos del Lanzamiento' : 'View Launch Photos'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Projects Section */}
       <section id="proyectos" className="section" ref={projectsRef}>
         <div className="container" style={{
@@ -641,7 +771,7 @@ function App() {
                     )}
                     {project.demo && project.demo !== '#' && project.demo !== '' && (
                       <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link">
-                        {icons.external} {(project.id === 6 || project.id === 7) ? transProjects.demoLive : transProjects.demo}
+                        {icons.external} {(project.id === 6 || project.id === 7 || project.id === 8) ? transProjects.demoLive : transProjects.demo}
                       </a>
                     )}
                   </div>
@@ -657,6 +787,30 @@ function App() {
             >
               {showAllProjects ? transProjects.viewLess : transProjects.viewMore}
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="galeria" className="section">
+        <div className="container">
+          <div className="section-header">
+            <h2>{language === 'es' ? 'Eventos y' : 'Events &'} <span>{language === 'es' ? 'Lanzamientos' : 'Launches'}</span></h2>
+            <p>{language === 'es' ? 'Momentos destacados de mis proyectos' : 'Highlights from my projects'}</p>
+          </div>
+          <div className="gallery-grid">
+            {workExperience[0].images.map((img, index) => (
+              <div key={index} className="polaroid">
+                <div className="polaroid-image">
+                  <img src={img} alt={`Moment ${index + 1}`} />
+                </div>
+                <div className="polaroid-caption">
+                  {index === 0 && (language === 'es' ? "Equipo de Lanzamiento MapHunter" : "MapHunter Launch Team")}
+                  {index === 1 && (language === 'es' ? "Trabajando en el evento" : "Working at the event")}
+                  {index === 2 && (language === 'es' ? "Entrega de premios" : "Giving away prizes")}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -701,7 +855,7 @@ function App() {
             <h3>{contact.ready}</h3>
             <p>{contact.cta}</p>
             <div className="contact-buttons">
-              <a href="/Dani_Daniela.CV26.pdf" download className="btn btn-download">
+              <a href="/danielacv2026.pdf" download className="btn btn-download">
                 {icons.download} {contact.downloadCv}
               </a>
               <a href="mailto:natachaa0424@gmail.com" className="btn btn-primary">

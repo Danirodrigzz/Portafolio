@@ -28,7 +28,7 @@
 ```css
 ╭─────────────────────────────────────────────────╮
 │  PLAYER: Daniela Rodríguez                      │
-│  CLASS:  Full-Stack Developer                   │
+│  CLASS:  Junior Full-Stack Developer            │
 │  LEVEL:  University Student (8th Semester)      │
 │  GUILD:  Universidad Santa María | USM          │
 │  ORIGIN: Guarenas, Venezuela 🇻🇪                 │
@@ -50,27 +50,38 @@
 ![CSS3](https://img.shields.io/badge/CSS3-81B29A?style=for-the-badge&logo=css3&logoColor=white)
 ![SQL](https://img.shields.io/badge/SQL-F2CC8F?style=for-the-badge&logo=postgresql&logoColor=black)
 
-### 「 FRAMEWORKS & TOOLS 」
+### 「 FRAMEWORKS & LIBRARIES 」
 ![React](https://img.shields.io/badge/React-1a1a2e?style=for-the-badge&logo=react&logoColor=81B29A)
-![React Native](https://img.shields.io/badge/React_Native-1a1a2e?style=for-the-badge&logo=react&logoColor=E07A5F)
+![Next.js](https://img.shields.io/badge/Next.js-1a1a2e?style=for-the-badge&logo=next.js&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-1a1a2e?style=for-the-badge&logo=flutter&logoColor=81B29A)
-![Expo](https://img.shields.io/badge/Expo-1a1a2e?style=for-the-badge&logo=expo&logoColor=F2CC8F)
+![React Native](https://img.shields.io/badge/React_Native-1a1a2e?style=for-the-badge&logo=react&logoColor=E07A5F)
 ![Vite](https://img.shields.io/badge/Vite-1a1a2e?style=for-the-badge&logo=vite&logoColor=E07A5F)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-1a1a2e?style=for-the-badge&logo=tailwind-css&logoColor=81B29A)
 ![Supabase](https://img.shields.io/badge/Supabase-1a1a2e?style=for-the-badge&logo=supabase&logoColor=81B29A)
 
-### 「 TOOLS 」
+### 「 DEPLOYMENT & TOOLS 」
+![Docker](https://img.shields.io/badge/Docker-1a1a2e?style=for-the-badge&logo=docker&logoColor=E07A5F)
+![Railway](https://img.shields.io/badge/Railway-1a1a2e?style=for-the-badge&logo=railway&logoColor=F2CC8F)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-E07A5F?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-1a1a2e?style=for-the-badge&logo=github&logoColor=F4F1DE)
 ![VS Code](https://img.shields.io/badge/VS_Code-81B29A?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![Figma](https://img.shields.io/badge/Figma-F2CC8F?style=for-the-badge&logo=figma&logoColor=black)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 </div>
 
 ---
 
+## 🏆 `> FEATURED QUESTS`
 
+<div align="center">
+
+**[MapHunter](https://www.maphunter.online/)** - Innovative gaming ecosystem (Mobile & Web) 🎮
+**[Morna Tech](https://home.morna.tech/)** - Corporate Web Redesign 🚀
+
+</div>
+
+---
 
 ## 📬 `> CONNECT`
 
@@ -82,14 +93,14 @@
 ╠═══════════════════════════════════════════════════════════╣
 ║                                                           ║
 ║   📧 Email:    natachaa0424@gmail.com                     ║
-║   💼 LinkedIn: linkedin.com/in/daniela-rodríguez          ║
+║   💼 LinkedIn: linkedin.com/in/danielaa-rodriguezz        ║
 ║   🐙 GitHub:   github.com/Danirodrigzz                    ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
 ```
 
 [![Email](https://img.shields.io/badge/Email-E07A5F?style=for-the-badge&logo=gmail&logoColor=white)](mailto:natachaa0424@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-81B29A?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/daniela-rodr%C3%ADguez-61576231a/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-81B29A?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/danielaa-rodriguezz/)
 [![GitHub](https://img.shields.io/badge/GitHub-1a1a2e?style=for-the-badge&logo=github&logoColor=F4F1DE)](https://github.com/Danirodrigzz)
 
 </div>
@@ -111,4 +122,3 @@
 ```
 
 </div>
-
