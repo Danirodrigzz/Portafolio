@@ -220,7 +220,7 @@ const projects = [
     technologies: ["Next.js", "React", "CSS3"],
     image: "/morna.png",
     github: "",
-    demo: "https://home.morna.tech/"
+    demo: "https://mornatech-sitioweb.vercel.app/"
   },
   {
     id: 1,

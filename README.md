@@ -77,7 +77,7 @@
 <div align="center">
 
 **[MapHunter](https://www.maphunter.online/)** - Innovative gaming ecosystem (Mobile & Web) 🎮
-**[Morna Tech](https://home.morna.tech/)** - Corporate Web Redesign 🚀
+**[Morna Tech](https://mornatech-sitioweb.vercel.app/)** - Corporate Web Redesign 🚀
 
 </div>
 
