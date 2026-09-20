@@ -945,34 +945,36 @@ function ToolsStack({ lang }) {
     stage.addEventListener('pointermove', onMove)
     stage.addEventListener('pointerleave', onLeave)
 
-    // ---- Arrastre: tomar una tarjeta y correrla al costado cambia la
-    // activa, en vez de hacer clic o usar flechas. ----
-    const dragHandlers = []
+    // ---- Arrastre: tomar la tarjeta de adelante y correrla al costado
+    // cambia la activa. Antes cada tarjeta tenía su propio listener —
+    // en laptop el mouse es preciso y acierta, pero en mobile las
+    // tarjetas quedan chicas y con la inclinación 3D su área real (ya
+    // rotada) no coincide con lo que el dedo "ve", así que el toque
+    // caía fuera del elemento y el arrastre no hacía nada. Ahora
+    // cualquier toque en TODO el escenario mueve la tarjeta activa —
+    // área mucho más grande y sin ambigüedad de cuál capa se tocó. ----
+    const onStageDown = (e) => {
+      if (reduced) return
+      drag.current = { index: activeRef.current, active: true, startX: e.clientX, dx: 0, releasing: false }
+      stage.setPointerCapture(e.pointerId)
+    }
+    const onStageDragMove = (e) => {
+      if (!drag.current.active) return
+      drag.current.dx = e.clientX - drag.current.startX
+    }
+    const onStageUp = () => {
+      if (!drag.current.active) return
+      const dx = drag.current.dx
+      drag.current.active = false
+      drag.current.releasing = true
+      if (dx < -DRAG_THRESHOLD) activeRef.current = (activeRef.current + 1) % N
+      else if (dx > DRAG_THRESHOLD) activeRef.current = (activeRef.current - 1 + N) % N
+    }
     if (!reduced) {
-      layerRefs.current.forEach((el, i) => {
-        if (!el) return
-        const onDown = (e) => {
-          drag.current = { index: i, active: true, startX: e.clientX, dx: 0, releasing: false }
-          el.setPointerCapture(e.pointerId)
-        }
-        const onDragMove = (e) => {
-          if (!drag.current.active || drag.current.index !== i) return
-          drag.current.dx = e.clientX - drag.current.startX
-        }
-        const onUp = () => {
-          if (!drag.current.active || drag.current.index !== i) return
-          const dx = drag.current.dx
-          drag.current.active = false
-          drag.current.releasing = true
-          if (dx < -DRAG_THRESHOLD) activeRef.current = (activeRef.current + 1) % N
-          else if (dx > DRAG_THRESHOLD) activeRef.current = (activeRef.current - 1 + N) % N
-        }
-        el.addEventListener('pointerdown', onDown)
-        el.addEventListener('pointermove', onDragMove)
-        el.addEventListener('pointerup', onUp)
-        el.addEventListener('pointercancel', onUp)
-        dragHandlers[i] = { onDown, onDragMove, onUp }
-      })
+      stage.addEventListener('pointerdown', onStageDown)
+      stage.addEventListener('pointermove', onStageDragMove)
+      stage.addEventListener('pointerup', onStageUp)
+      stage.addEventListener('pointercancel', onStageUp)
     }
 
     const triggerEntrance = () => {
@@ -1045,13 +1047,10 @@ function ToolsStack({ lang }) {
       if (io) io.disconnect()
       stage.removeEventListener('pointermove', onMove)
       stage.removeEventListener('pointerleave', onLeave)
-      layerRefs.current.forEach((el, i) => {
-        if (!el || !dragHandlers[i]) return
-        el.removeEventListener('pointerdown', dragHandlers[i].onDown)
-        el.removeEventListener('pointermove', dragHandlers[i].onDragMove)
-        el.removeEventListener('pointerup', dragHandlers[i].onUp)
-        el.removeEventListener('pointercancel', dragHandlers[i].onUp)
-      })
+      stage.removeEventListener('pointerdown', onStageDown)
+      stage.removeEventListener('pointermove', onStageDragMove)
+      stage.removeEventListener('pointerup', onStageUp)
+      stage.removeEventListener('pointercancel', onStageUp)
     }
   }, [lang])
 
