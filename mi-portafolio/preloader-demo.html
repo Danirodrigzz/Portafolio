@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preloader — Daniela Rodríguez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pl-dark: #17140f;
+    --pl-dark-muted: #a49d97;
+    --pl-rose-bg: #f1e0da;
+    --pl-rose-accent: #a9847d;
+    --pl-rose-text: #2b2521;
+    --pl-red: #b5504a;
+    --pl-ease: cubic-bezier(.2, .7, .2, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--pl-rose-bg);
+    color: var(--pl-rose-text);
+  }
+
+  /* ---------- Preloader ---------- */
+
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    overflow: hidden;
+    transition: transform 1s cubic-bezier(.76, 0, .24, 1);
+  }
+
+  #preloader.pl-exit { transform: translateY(-100%); }
+
+  .pl-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .pl-dark { background: var(--pl-dark); z-index: 1; }
+
+  .pl-rose {
+    background: var(--pl-rose-bg);
+    z-index: 2;
+    /* Arranca recortada desde arriba (top-inset 100%) = altura visible 0.
+       Al llegar la letra #5, .pl-sweep baja el inset a 0% y la cortina
+       sube desde abajo revelando todo el fondo rosa. */
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .pl-rose.pl-sweep {
+    clip-path: inset(0% 0 0 0);
+    transition: clip-path 1050ms cubic-bezier(.65, 0, .35, 1);
+  }
+
+  .pl-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(0.4rem, 1.2vw, 0.65rem);
+    max-width: 90vw;
+  }
+
+  .pl-letter {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(3rem, 10vw, 7rem);
+    line-height: 1;
+    min-width: 1ch;
+  }
+
+  .pl-dark .pl-letter { color: var(--pl-dark-muted); }
+  .pl-rose .pl-letter { color: var(--pl-rose-text); }
+
+  /* Glitch de "recorte y ensamblaje": clip-path + desplazamiento +
+     parpadeo de opacidad, monocromático (sin separación RGB). Se
+     reinicia en JS quitando y volviendo a poner esta clase. */
+  .pl-glitch { animation: pl-letter-glitch 620ms var(--pl-ease); }
+
+  @keyframes pl-letter-glitch {
+    0%   { clip-path: inset(0% 0 0 0);   transform: translateX(10px); opacity: 1; }
+    22%  { clip-path: inset(55% 0 0 0);  transform: translateX(10px); opacity: .5; }
+    46%  { clip-path: inset(30% 0 0 0);  transform: translateX(-8px); opacity: .6; }
+    70%  { clip-path: inset(0% 0 30% 0); transform: translateX(8px);  opacity: .5; }
+    88%  { clip-path: inset(0% 0 0 0);   transform: translateX(-5px); opacity: 1; }
+    100% { clip-path: inset(0% 0 0 0);   transform: translateX(0);    opacity: 1; }
+  }
+
+  .pl-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  }
+
+  .pl-brand .pl-reg { font-size: 0.65em; vertical-align: super; }
+
+  .pl-dark .pl-brand { color: var(--pl-dark-muted); opacity: 0.32; }
+  .pl-rose .pl-brand { color: var(--pl-rose-text); opacity: 1; }
+
+  /* ---------- Fase 3: monograma + CTA ---------- */
+
+  /* El monograma "DR" vive en una tarjeta 3D: al pasar el mouse por el
+     CTA, gira sobre su eje Y y del otro lado aparece la flecha del botón
+     ampliada, en rojo — la misma idea de "ir hacia adelante" del botón,
+     no un ícono suelto sin relación (como el corazón de antes). */
+  .pl-icon-wrap {
+    position: relative;
+    width: clamp(3rem, 10vw, 7rem);
+    height: clamp(3rem, 10vw, 7rem);
+    color: var(--pl-rose-text);
+    perspective: 600px;
+  }
+
+  .pl-icon-wrap[hidden] { display: none; }
+
+  .pl-icon-flip {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 550ms cubic-bezier(.65, 0, .35, 1);
+  }
+
+  .pl-icon-wrap.pl-flip .pl-icon-flip { transform: rotateY(180deg); }
+
+  .pl-icon-face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+
+  .pl-monogram circle { stroke: var(--pl-rose-accent); transition: stroke 550ms ease; }
+  .pl-monogram text { fill: currentColor; }
+  .pl-icon-wrap.pl-flip .pl-monogram circle { stroke: var(--pl-red); }
+
+  .pl-icon-back {
+    transform: rotateY(180deg);
+    color: var(--pl-red);
+  }
+
+  .pl-icon-back circle { stroke: var(--pl-red); }
+  .pl-icon-back path { stroke: var(--pl-red); }
+
+  .pl-final {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 600ms ease, transform 600ms ease;
+  }
+
+  .pl-final[hidden] { display: none; }
+  .pl-final.pl-in { opacity: 1; transform: translateY(0); }
+
+  .pl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.7rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 1.5px solid var(--pl-rose-text);
+    color: var(--pl-rose-text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  .pl-btn:hover, .pl-btn:focus-visible { background: var(--pl-rose-text); color: #fff; }
+  .pl-btn svg { flex: none; }
+
+  .pl-silent {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--pl-rose-text);
+    cursor: pointer;
+  }
+
+  .pl-silent:hover, .pl-silent:focus-visible { color: var(--pl-red); }
+
+  /* ---------- Contenido real de la página (demo) ---------- */
+
+  #site-content {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  #site-content h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    max-width: 20ch;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="pl-layer pl-dark">
+      <div class="pl-content">
+        <div class="pl-letter" id="pl-letter-dark" aria-hidden="true">D</div>
+        <div class="pl-brand">Daniela Rodríguez<span class="pl-reg">®</span></div>
+      </div>
+    </div>
+
+    <div class="pl-layer pl-rose" id="pl-rose">
+      <div class="pl-content">
+        <div class="pl-letter" id="pl-letter-rose" aria-hidden="true">D</div>
+
+        <div class="pl-icon-wrap" id="pl-icon-wrap" hidden>
+          <div class="pl-icon-flip">
+            <svg class="pl-icon-face pl-monogram" viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="47" fill="none" stroke-width="2"/>
+              <text x="50" y="63" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="34">DR</text>
+            </svg>
+            <svg class="pl-icon-face pl-icon-back" viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="47" fill="none" stroke-width="2"/>
+              <path d="M34 62L66 30M66 30H38M66 30V58" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="pl-brand">Daniela Rodríguez<span class="pl-reg">®</span></div>
+
+        <div class="pl-final" id="pl-final" hidden>
+          <button class="pl-btn" id="pl-enter" type="button">
+            Entrar
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="pl-silent" id="pl-enter-silent" type="button">Entrar sin sonido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="site-content">
+    <h1>Acá va el contenido real de tu portafolio.</h1>
+  </main>
+
+  <script>
+    (function () {
+      var LETTERS = ['D', 'A', 'N', 'I', 'E', 'L', 'A'];
+      var LETTER_MS = 780;
+      var SWEEP_INDEX = 4; // letra #5 de 7 (0-indexado) = "E"
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var preloader = document.getElementById('preloader');
+      var roseLayer = document.getElementById('pl-rose');
+      var letterDark = document.getElementById('pl-letter-dark');
+      var letterRose = document.getElementById('pl-letter-rose');
+      var iconWrap = document.getElementById('pl-icon-wrap');
+      var finalBlock = document.getElementById('pl-final');
+      var enterBtn = document.getElementById('pl-enter');
+      var silentBtn = document.getElementById('pl-enter-silent');
+
+      function setLetter(el, ch) {
+        el.textContent = ch;
+        el.classList.remove('pl-glitch');
+        // Fuerza reflow para poder reiniciar la animación en la letra
+        // siguiente aunque la clase ya estuviera puesta.
+        void el.offsetWidth;
+        el.classList.add('pl-glitch');
+      }
+
+      function showLetter(i) {
+        var ch = LETTERS[i];
+        setLetter(letterDark, ch);
+        setLetter(letterRose, ch);
+        if (i === SWEEP_INDEX) roseLayer.classList.add('pl-sweep');
+      }
+
+      function showFinal() {
+        letterDark.style.visibility = 'hidden';
+        letterRose.hidden = true;
+        iconWrap.hidden = false;
+        finalBlock.hidden = false;
+        requestAnimationFrame(function () {
+          finalBlock.classList.add('pl-in');
+        });
+      }
+
+      function runSequence() {
+        var i = 0;
+        showLetter(i);
+        var timer = setInterval(function () {
+          i += 1;
+          if (i >= LETTERS.length) {
+            clearInterval(timer);
+            showFinal();
+            return;
+          }
+          showLetter(i);
+        }, LETTER_MS);
+      }
+
+      function exitPreloader() {
+        preloader.classList.add('pl-exit');
+        window.setTimeout(function () {
+          preloader.style.display = 'none';
+        }, 1100);
+      }
+
+      enterBtn.addEventListener('click', exitPreloader);
+      silentBtn.addEventListener('click', exitPreloader);
+
+      finalBlock.addEventListener('mouseenter', function () {
+        iconWrap.classList.add('pl-flip');
+      });
+      finalBlock.addEventListener('mouseleave', function () {
+        iconWrap.classList.remove('pl-flip');
+      });
+
+      if (reduced) {
+        roseLayer.classList.add('pl-sweep');
+        letterDark.style.visibility = 'hidden';
+        letterRose.hidden = true;
+        iconWrap.hidden = false;
+        finalBlock.hidden = false;
+        finalBlock.classList.add('pl-in');
+      } else {
+        runSequence();
+      }
+    })();
+  </script>
+
+</body>
+</html>

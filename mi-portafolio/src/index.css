@@ -1,1585 +1,1768 @@
-/* ===== PIXEL ART MODERN THEME ===== */
-
-/* Import Pixel Font */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+/* ============================================================
+   Daniela Rodríguez — Portafolio
+   Dirección: editorial de estudio (referencia: Unseen Studio).
+   Negro serio, tipografía gigante disciplinada, Tiffany + coral
+   como acentos quirúrgicos, scroll con inercia, cursor propio y
+   distorsión WebGL real en las imágenes de proyectos.
+   ============================================================ */
 
 :root {
-  /* Colors - Soft Pixel Palette (No Neon) */
-  --bg-primary: #1a1a2e;
-  --bg-secondary: #16213e;
-  --bg-tertiary: #0f0f1a;
-  --bg-card: #252542;
+  --bg: #f2f0e8;
+  --bg-2: #ffffff;
+  --ink: #15140f;
+  --mist: #6b6a60;
+  --dim: #a19e90;
 
-  /* Soft accent colors - earthy/pastel */
-  --accent-coral: #e07a5f;
-  --accent-sage: #81b29a;
-  --accent-sand: #f2cc8f;
-  --accent-lavender: #9a8c98;
-  --accent-cream: #f4f1de;
-  --accent-terracotta: #c9705e;
-  --accent-mint: #a8dadc;
-  --accent-dusty-rose: #c9ada7;
+  /* Paleta rosa vieja — reemplaza al teal/coral de antes en todo el
+     sitio, no solo en el preloader. */
+  --tiffany: #bc8f8f;
+  --coral: #b5504a;
 
-  /* Text colors */
-  --text-primary: #f4f1de;
-  --text-secondary: rgba(244, 241, 222, 0.7);
-  --text-muted: rgba(244, 241, 222, 0.5);
+  --line: rgba(21, 20, 15, 0.09);
+  --line-strong: rgba(21, 20, 15, 0.18);
 
-  /* Pixel shadows */
-  --pixel-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
-  --pixel-shadow-hover: 6px 6px 0px rgba(0, 0, 0, 0.4);
-  --pixel-shadow-sm: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  --display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --body: 'Manrope', system-ui, sans-serif;
 
-  /* Spacing */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-2xl: 5rem;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --maxw: 1440px;
 
-  /* Pixel Border */
-  --pixel-border: 4px solid;
-
-  /* Transitions */
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { -webkit-text-size-adjust: 100%; }
 
 body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: clamp(0.95rem, 0.9rem + 0.15vw, 1.05rem);
   line-height: 1.6;
   overflow-x: hidden;
-  image-rendering: pixelated;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ===== PIXEL BACKGROUND ===== */
-.pixel-bg {
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--tiffany); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--tiffany); outline-offset: 3px; }
+
+/* Cursor propio: se oculta el nativo solo cuando hay mouse real */
+@media (pointer: fine) {
+  body.cursor-ready, body.cursor-ready a, body.cursor-ready button { cursor: none; }
+}
+
+.cursor {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -10;
-  background:
-    linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-primary) 50%, var(--bg-secondary) 100%);
-}
-
-/* Pixel Grid Pattern */
-.pixel-grid {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -9;
-  opacity: 0.03;
-  background-image:
-    linear-gradient(var(--accent-cream) 1px, transparent 1px),
-    linear-gradient(90deg, var(--accent-cream) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-/* Floating Pixel Particles */
-.pixel-particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -8;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
   pointer-events: none;
-  overflow: hidden;
-}
-
-.pixel-particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: var(--accent-sage);
-  opacity: 0.3;
-  animation: floatPixel 15s ease-in-out infinite;
-}
-
-.pixel-particle:nth-child(1) {
-  left: 10%;
-  top: 20%;
-  animation-delay: 0s;
-  background: var(--accent-coral);
-}
-
-.pixel-particle:nth-child(2) {
-  left: 20%;
-  top: 80%;
-  animation-delay: -2s;
-  background: var(--accent-sage);
-}
-
-.pixel-particle:nth-child(3) {
-  left: 35%;
-  top: 40%;
-  animation-delay: -4s;
-  background: var(--accent-sand);
-}
-
-.pixel-particle:nth-child(4) {
-  left: 50%;
-  top: 60%;
-  animation-delay: -6s;
-  background: var(--accent-lavender);
-}
-
-.pixel-particle:nth-child(5) {
-  left: 65%;
-  top: 25%;
-  animation-delay: -8s;
-  background: var(--accent-mint);
-}
-
-.pixel-particle:nth-child(6) {
-  left: 80%;
-  top: 70%;
-  animation-delay: -10s;
-  background: var(--accent-dusty-rose);
-}
-
-.pixel-particle:nth-child(7) {
-  left: 90%;
-  top: 45%;
-  animation-delay: -12s;
-  background: var(--accent-terracotta);
-}
-
-.pixel-particle:nth-child(8) {
-  left: 5%;
-  top: 55%;
-  animation-delay: -14s;
-  background: var(--accent-cream);
-  opacity: 0.2;
-}
-
-@keyframes floatPixel {
-
-  0%,
-  100% {
-    transform: translateY(0) translateX(0);
-  }
-
-  25% {
-    transform: translateY(-30px) translateX(10px);
-  }
-
-  50% {
-    transform: translateY(-10px) translateX(-15px);
-  }
-
-  75% {
-    transform: translateY(-40px) translateX(5px);
-  }
-}
-
-/* Decorative Pixel Corners */
-.pixel-corner {
-  position: fixed;
-  width: 80px;
-  height: 80px;
-  z-index: -7;
-  opacity: 0.1;
-}
-
-.pixel-corner::before,
-.pixel-corner::after {
-  content: '';
-  position: absolute;
-  background: var(--accent-sage);
-}
-
-.pixel-corner--tl {
-  top: 20px;
-  left: 20px;
-}
-
-.pixel-corner--tl::before {
-  width: 40px;
-  height: 8px;
-  top: 0;
-  left: 0;
-}
-
-.pixel-corner--tl::after {
-  width: 8px;
-  height: 40px;
-  top: 0;
-  left: 0;
-}
-
-.pixel-corner--br {
-  bottom: 20px;
-  right: 20px;
-}
-
-.pixel-corner--br::before {
-  width: 40px;
-  height: 8px;
-  bottom: 0;
-  right: 0;
-}
-
-.pixel-corner--br::after {
-  width: 8px;
-  height: 40px;
-  bottom: 0;
-  right: 0;
-}
-
-/* ===== TYPOGRAPHY ===== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Press Start 2P', cursive;
-  line-height: 1.4;
-  letter-spacing: 1px;
-}
-
-h1 {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-}
-
-h2 {
-  font-size: clamp(1rem, 3vw, 1.5rem);
-}
-
-h3 {
-  font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-}
-
-p {
-  font-family: 'VT323', monospace;
-  font-size: 1.4rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.5px;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* ===== UTILITIES ===== */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-md);
-}
-
-.section {
-  padding: var(--space-2xl) 0;
-  position: relative;
-}
-
-/* ===== PIXEL CARD ===== */
-.pixel-card {
-  background: var(--bg-card);
-  border: var(--pixel-border) var(--accent-sage);
-  box-shadow: var(--pixel-shadow);
-  position: relative;
-  transition: all var(--transition-fast);
-}
-
-.pixel-card::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  background: transparent;
-  border: 4px solid transparent;
-  pointer-events: none;
-}
-
-.pixel-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--pixel-shadow-hover);
-}
-
-/* Different border colors */
-.pixel-card--coral {
-  border-color: var(--accent-coral);
-}
-
-.pixel-card--sage {
-  border-color: var(--accent-sage);
-}
-
-.pixel-card--sand {
-  border-color: var(--accent-sand);
-}
-
-.pixel-card--lavender {
-  border-color: var(--accent-lavender);
-}
-
-.pixel-card--mint {
-  border-color: var(--accent-mint);
-}
-
-/* ===== BUTTONS ===== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-lg);
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.65rem;
-  border: var(--pixel-border) currentColor;
-  box-shadow: var(--pixel-shadow);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  position: relative;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--pixel-shadow-hover);
-}
-
-.btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: none;
-}
-
-.btn-primary {
-  background: var(--accent-coral);
-  color: var(--bg-primary);
-  border-color: var(--accent-terracotta);
-}
-
-.btn-secondary {
-  background: var(--accent-sage);
-  color: var(--bg-primary);
-  border-color: #5a9178;
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--accent-cream);
-  border-color: var(--accent-cream);
-}
-
-.btn-outline:hover {
-  background: rgba(244, 241, 222, 0.1);
-}
-
-.btn-download {
-  background: var(--accent-sand);
-  color: var(--bg-primary);
-  border-color: #d4a84a;
-}
-
-/* ===== NAVBAR ===== */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  /* Por encima de cualquier overlay a pantalla completa (menú, preloader)
+     — si no, con esos por delante el cursor propio queda tapado y encima
+     el nativo sigue oculto (body.cursor-ready), o sea: sin cursor visible. */
   z-index: 1000;
-  padding: var(--space-sm) 0;
-  transition: all var(--transition-normal);
+  transition: width 0.35s var(--ease), height 0.35s var(--ease), margin 0.35s var(--ease), border-radius 0.35s var(--ease), background 0.3s, border-color 0.3s, opacity 0.3s;
+  will-change: transform;
 }
 
-.navbar.scrolled {
-  background: rgba(26, 26, 46, 0.95);
-  border-bottom: 4px solid var(--accent-sage);
+.cursor.big {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-width: 1px;
 }
 
-.navbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Sobre los links del nav ("los subtítulos de arriba"): el círculo se
+   estira en horizontal y se convierte en una pastilla ovalada, en vez de
+   agrandarse como círculo. */
+.cursor.pill {
+  width: 92px;
+  height: 34px;
+  margin: -17px 0 0 -46px;
+  border-radius: 999px;
+  border-width: 1.5px;
 }
 
-.navbar-logo {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.9rem;
-  color: var(--accent-coral);
-  text-shadow: 2px 2px 0 var(--accent-terracotta);
-  animation: logoFloat 3s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-3px);
-  }
-}
-
-.navbar-links {
-  display: flex;
-  gap: 0.8rem;
-  list-style: none;
-}
-
-.navbar-links a {
-  font-family: 'VT323', monospace;
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  transition: all var(--transition-fast);
-  position: relative;
-  padding: 0.2rem 0.4rem;
+.cursor-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 0.3s;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.navbar-links a::after {
-  content: '';
+.cursor-label.on { opacity: 1; }
+
+/* ---------- Fondo de pantalla completa ---------- */
+
+/* Detrás de todo: el respaldo visual del sitio.
+   background en vez de <img> para que "cover" centre y recorte solo, sin
+   deformarse en ningún tamaño de pantalla. */
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url('/fondo3.jpg') center / cover no-repeat;
+}
+
+/* ---------- Textura retro: grano de película ---------- */
+
+/* La sacudida del grano anima background-position (no transform): el
+   transform de este elemento lo controla JS para el parallax de cámara
+   que sigue al puntero, y no deben pisarse. */
+@keyframes grain-shift {
+  0%, 100% { background-position: 0% 0%; }
+  10% { background-position: -8% -14%; }
+  20% { background-position: -22% 6%; }
+  30% { background-position: 12% -18%; }
+  40% { background-position: -18% 22%; }
+  50% { background-position: 10% 4%; }
+  60% { background-position: 4% -10%; }
+  70% { background-position: -10% 10%; }
+  80% { background-position: 18% 0%; }
+  90% { background-position: -4% 14%; }
+}
+
+.grain {
+  position: fixed;
+  inset: -20%;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0.22;
+  /* "normal" en vez de "multiply": así el grano se ve gris neutro,
+     sin teñirse del tono cálido del fondo crema. */
+  mix-blend-mode: normal;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  transform: translate3d(0, 0, 0);
+  animation: grain-shift 1s steps(8) infinite;
+  will-change: transform;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  .band-head.center .title, .works-row.receded { filter: none; }
+}
+
+/* ---------- Estructura ---------- */
+
+/* Sin z-index acá a propósito: position+z-index en .shell crearía su
+   PROPIO contexto de apilamiento, y entonces el z-index del nav (100,
+   adentro de .shell) dejaría de compararse contra hermanos de afuera
+   como .landing-hero o .preloader — quedaría atrapado comparándose solo
+   contra el z-index de .shell (esto era exactamente el bug: el nav no
+   se veía sobre la pantalla de "Ver Proyectos" porque .shell entero, con
+   z-index 1, quedaba tapado por .landing-hero con z-index 50, sin
+   importar que el nav adentro tuviera 100). */
+.shell { position: relative; }
+.wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+.band { position: relative; padding-block: clamp(3.75rem, 7vw, 6rem); }
+
+/* Entre el final de la pila de herramientas y "Trayectoria" quedaba un
+   espacio doble (el padding de abajo de Stack + el de arriba de la
+   siguiente sección) — se acorta de los dos lados. */
+#stack { padding-bottom: 0; }
+/* Antes esto competía con el margin-bottom negativo de .tools-stack-stage
+   — dos márgenes negativos entre hermanos colapsan al MÁS negativo de
+   los dos, no se suman, así que subir solo uno no hacía nada si el otro
+   ya "ganaba". Ahora todo el jalón vive acá, en un solo valor. */
+#trayectoria { padding-top: 0; margin-top: clamp(-5.5rem, -8vw, -3.5rem); }
+
+/* Textura de fondo: arcos suaves y desenfocados, como una atmósfera
+   detrás del contenido — nunca compiten con el texto ni las fotos. */
+.bg-deco { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+
+.arch {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 4px;
-  background: var(--accent-coral);
-  transition: width var(--transition-normal);
+  bottom: -6%;
+  width: 22vw;
+  min-width: 220px;
+  max-width: 340px;
+  aspect-ratio: 1 / 1.7;
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+  background: linear-gradient(180deg, rgba(21, 20, 15, 0.05), rgba(21, 20, 15, 0.02));
+  filter: blur(1px);
 }
 
-.navbar-links a:hover {
-  color: var(--accent-coral);
-}
+.arch--1 { left: -4%; }
+.arch--2 { left: 16%; opacity: 0.7; }
+.arch--3 { right: 14%; opacity: 0.8; }
+.arch--4 { right: -5%; }
 
-.navbar-links a:hover::after {
-  width: 100%;
-}
-
-.navbar-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  cursor: pointer;
-  padding: 10px;
-}
-
-.navbar-toggle span {
-  width: 24px;
-  height: 4px;
-  background: var(--accent-cream);
-}
-
-/* ===== HERO SECTION ===== */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  padding-top: 80px;
-}
-
-.hero-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2xl);
-  align-items: center;
-}
-
-.hero-text {
-  animation: slideInLeft 0.8s ease-out;
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.hero-badge {
-  display: inline-block;
-  padding: var(--space-xs) var(--space-sm);
-  background: var(--accent-sage);
-  color: var(--bg-primary);
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.5rem;
-  border: 3px solid #5a9178;
-  box-shadow: var(--pixel-shadow-sm);
-  margin-bottom: var(--space-md);
-  animation: badgeBounce 2s ease-in-out infinite;
-}
-
-@keyframes badgeBounce {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-.hero-title {
-  margin-bottom: var(--space-md);
-  color: var(--accent-cream);
-  text-shadow: 3px 3px 0 var(--accent-coral);
-}
-
-.hero-title span {
-  color: var(--accent-coral);
-  text-shadow: 3px 3px 0 var(--accent-terracotta);
-}
-
-.hero-description {
-  margin-bottom: var(--space-lg);
-  max-width: 500px;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: var(--space-sm);
-  flex-wrap: wrap;
-}
-
-.hero-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: slideInRight 0.8s ease-out 0.2s both;
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.hero-avatar {
-  position: relative;
-  width: 300px;
-  height: 300px;
-}
-
-.hero-avatar-frame {
-  width: 100%;
-  height: 100%;
-  background: var(--bg-card);
-  border: 6px solid var(--accent-coral);
-  box-shadow: 8px 8px 0 var(--accent-terracotta);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  animation: avatarIdle 4s ease-in-out infinite;
-}
-
-@keyframes avatarIdle {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  25% {
-    transform: translate(0, -5px);
-  }
-
-  75% {
-    transform: translate(0, 5px);
-  }
-}
-
-.hero-avatar-content {
-  font-size: 8rem;
-  animation: avatarBlink 4s ease-in-out infinite;
-}
-
-.hero-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  image-rendering: pixelated;
-  animation: avatarBlink 4s ease-in-out infinite;
-}
-
-@keyframes avatarBlink {
-
-  0%,
-  45%,
-  55%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.8;
-  }
-}
-
-/* Decorative pixels around avatar */
-.hero-avatar::before,
-.hero-avatar::after {
-  content: '';
+.speck {
   position: absolute;
-  width: 16px;
-  height: 16px;
-  background: var(--accent-sage);
-  animation: orbitalPixel 8s linear infinite;
-}
-
-.hero-avatar::before {
-  top: -20px;
-  left: 50%;
-}
-
-.hero-avatar::after {
-  bottom: -20px;
-  left: 50%;
-  animation-delay: -4s;
-  background: var(--accent-sand);
-}
-
-@keyframes orbitalPixel {
-  0% {
-    transform: translateX(-50%) rotate(0deg) translateY(-30px);
-  }
-
-  100% {
-    transform: translateX(-50%) rotate(360deg) translateY(-30px);
-  }
-}
-
-/* ===== ABOUT SECTION ===== */
-.about-content {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: var(--space-2xl);
-  align-items: center;
-}
-
-.about-image-wrapper {
-  padding: var(--space-lg);
-}
-
-.about-image-content {
-  width: 100%;
-  height: 300px;
-  background: linear-gradient(135deg, var(--accent-lavender) 0%, var(--accent-dusty-rose) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 5rem;
-  border: 4px solid var(--accent-lavender);
-}
-
-.about-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
-}
-
-.stat-item {
-  text-align: center;
-  padding: var(--space-sm);
-  background: var(--bg-card);
-  border: 3px solid var(--accent-sage);
-  transition: all var(--transition-fast);
-}
-
-.stat-item:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent-coral);
-}
-
-.stat-number {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 1.2rem;
-  color: var(--accent-coral);
-  text-shadow: 2px 2px 0 var(--accent-terracotta);
-}
-
-.stat-label {
-  font-family: 'VT323', monospace;
-  font-size: 1rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.about-text h2 {
-  margin-bottom: var(--space-md);
-  color: var(--accent-sage);
-  text-shadow: 2px 2px 0 #5a9178;
-}
-
-.about-highlights {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
-}
-
-.highlight-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  font-family: 'VT323', monospace;
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  transition: all var(--transition-fast);
-  padding: var(--space-xs);
-}
-
-.highlight-item:hover {
-  color: var(--accent-coral);
-  transform: translateX(5px);
-}
-
-.highlight-icon {
-  width: 20px;
-  height: 20px;
-  background: var(--accent-sage);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--bg-primary);
-  font-size: 0.7rem;
-}
-
-/* ===== SECTION HEADER ===== */
-.section-header {
-  text-align: center;
-  margin-bottom: var(--space-2xl);
-}
-
-.section-header h2 {
-  margin-bottom: var(--space-sm);
-  display: inline-block;
-  position: relative;
-  color: var(--accent-cream);
-}
-
-.section-header h2 span {
-  color: var(--accent-coral);
-}
-
-.section-header h2::before,
-.section-header h2::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 40px;
-  height: 4px;
-  background: var(--accent-sage);
-}
-
-.section-header h2::before {
-  left: -60px;
-}
-
-.section-header h2::after {
-  right: -60px;
-}
-
-.section-header p {
-  max-width: 600px;
-  margin: var(--space-md) auto 0;
-}
-
-/* ===== SKILLS SECTION ===== */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
-}
-
-.skill-category {
-  padding: var(--space-lg);
-  animation: pixelFadeIn 0.5s ease-out both;
-}
-
-.skill-category:nth-child(1) {
-  animation-delay: 0.1s;
-  border-color: var(--accent-coral);
-}
-
-.skill-category:nth-child(2) {
-  animation-delay: 0.2s;
-  border-color: var(--accent-sage);
-}
-
-.skill-category:nth-child(3) {
-  animation-delay: 0.3s;
-  border-color: var(--accent-sand);
-}
-
-.skill-category:nth-child(4) {
-  animation-delay: 0.4s;
-  border-color: var(--accent-lavender);
-}
-
-.skill-category:nth-child(5) {
-  animation-delay: 0.5s;
-  border-color: var(--accent-mint);
-}
-
-@keyframes pixelFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.skill-category h3 {
-  margin-bottom: var(--space-md);
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  color: var(--accent-cream);
-}
-
-.skill-category-icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent-coral);
-  border: 3px solid var(--accent-terracotta);
-  font-size: 1rem;
-}
-
-.skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-}
-
-.skill-tag {
-  padding: 6px 12px;
-  background: var(--bg-tertiary);
-  border: 2px solid var(--accent-sage);
-  font-family: 'VT323', monospace;
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  transition: all var(--transition-fast);
-  cursor: default;
-}
-
-.skill-tag:hover {
-  background: var(--accent-sage);
-  color: var(--bg-primary);
-  transform: translate(-2px, -2px);
-  box-shadow: var(--pixel-shadow-sm);
-}
-
-/* ===== PROJECTS SECTION ===== */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-lg);
-}
-
-.project-card {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.project-image {
-  height: 180px;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-card) 100%);
-  border-bottom: 4px solid currentColor;
-}
-
-.project-image-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  transition: all var(--transition-normal);
-}
-
-.project-card:hover .project-image-content {
-  transform: scale(1.1);
-  animation: projectBounce 0.5s ease-in-out;
-}
-
-@keyframes projectBounce {
-
-  0%,
-  100% {
-    transform: scale(1.1);
-  }
-
-  50% {
-    transform: scale(1.15);
-  }
-}
-
-.project-status {
-  position: absolute;
-  top: var(--space-sm);
-  right: var(--space-sm);
-  padding: 4px 8px;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.4rem;
-  text-transform: uppercase;
-  border: 2px solid;
-}
-
-.project-status.completed {
-  background: var(--accent-sage);
-  color: var(--bg-primary);
-  border-color: #5a9178;
-}
-
-.project-status.in-progress {
-  background: var(--accent-sand);
-  color: var(--bg-primary);
-  border-color: #d4a84a;
-  animation: statusBlink 1s ease-in-out infinite;
-}
-
-@keyframes statusBlink {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.project-content {
-  padding: var(--space-md);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.project-type {
-  font-family: 'VT323', monospace;
-  font-size: 1rem;
-  color: var(--accent-sage);
-  text-transform: uppercase;
-  margin-bottom: var(--space-xs);
-}
-
-.project-title {
-  font-size: 0.75rem;
-  margin-bottom: var(--space-xs);
-  color: var(--accent-cream);
-}
-
-.project-description {
-  font-size: 1.2rem;
-  margin-bottom: var(--space-md);
-  flex: 1;
-}
-
-.project-tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: var(--space-md);
-}
-
-.tech-tag {
-  padding: 3px 8px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--accent-lavender);
-  font-family: 'VT323', monospace;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.project-links {
-  display: flex;
-  gap: var(--space-sm);
-}
-
-.project-link {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: 6px 12px;
-  background: var(--bg-tertiary);
-  border: 2px solid var(--accent-sage);
-  font-family: 'VT323', monospace;
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  transition: all var(--transition-fast);
-}
-
-.project-link:hover {
-  background: var(--accent-sage);
-  color: var(--bg-primary);
-}
-
-/* Project card color variations */
-.project-card:nth-child(1) {
-  border-color: var(--accent-coral);
-}
-
-.project-card:nth-child(2) {
-  border-color: var(--accent-sage);
-}
-
-.project-card:nth-child(3) {
-  border-color: var(--accent-sand);
-}
-
-.project-card:nth-child(4) {
-  border-color: var(--accent-lavender);
-}
-
-.project-card:nth-child(5) {
-  border-color: var(--accent-mint);
-}
-
-/* ===== CONTACT SECTION ===== */
-.contact-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2xl);
-}
-
-.contact-info h3 {
-  margin-bottom: var(--space-md);
-  color: var(--accent-sage);
-  text-shadow: 2px 2px 0 #5a9178;
-}
-
-.contact-links {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.contact-link {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md);
-}
-
-.contact-link-icon {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent-coral);
-  border: 3px solid var(--accent-terracotta);
-  font-size: 1.25rem;
-  transition: all var(--transition-fast);
-}
-
-.contact-link:hover .contact-link-icon {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--pixel-shadow-sm);
-}
-
-.contact-link-text h4 {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.6rem;
-  color: var(--accent-cream);
-  margin-bottom: 4px;
-}
-
-.contact-link-text span {
-  font-family: 'VT323', monospace;
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-}
-
-.contact-cta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: var(--space-2xl);
-}
-
-.contact-cta h3 {
-  margin-bottom: var(--space-sm);
-  color: var(--accent-sand);
-  text-shadow: 2px 2px 0 #d4a84a;
-}
-
-.contact-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  width: 100%;
-  max-width: 280px;
-}
-
-/* Decorative Game UI elements */
-.game-ui-bar {
-  width: 100%;
-  height: 8px;
-  background: var(--bg-tertiary);
-  border: 2px solid var(--accent-sage);
-  margin-top: var(--space-md);
-  position: relative;
-  overflow: hidden;
-}
-
-.game-ui-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent-coral), var(--accent-sand));
-  animation: barFill 3s ease-out forwards;
-}
-
-@keyframes barFill {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
-/* ===== FOOTER ===== */
-.footer {
-  padding: var(--space-lg) 0;
-  border-top: 4px solid var(--accent-sage);
-}
-
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-text {
-  font-family: 'VT323', monospace;
-  font-size: 1.2rem;
-  color: var(--text-muted);
-}
-
-.footer-social {
-  display: flex;
-  gap: var(--space-sm);
-}
-
-.social-link {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-card);
-  border: 3px solid var(--accent-sage);
-  color: var(--text-secondary);
-  transition: all var(--transition-fast);
-}
-
-.social-link:hover {
-  background: var(--accent-sage);
-  color: var(--bg-primary);
-  transform: translate(-2px, -2px);
-  box-shadow: var(--pixel-shadow-sm);
-}
-
-/* ===== SCROLL ANIMATIONS ===== */
-.fade-in-up {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease-out;
-}
-
-.fade-in-up.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 992px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .hero-text {
-    order: 2;
-  }
-
-  .hero-image {
-    order: 1;
-  }
-
-  .hero-description {
-    margin: 0 auto var(--space-lg);
-  }
-
-  .hero-buttons {
-    justify-content: center;
-  }
-
-  .hero-avatar {
-    width: 220px;
-    height: 220px;
-  }
-
-  .about-content {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-content {
-    grid-template-columns: 1fr;
-  }
-
-  .section-header h2::before,
-  .section-header h2::after {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .navbar-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: var(--bg-primary);
-    border: 4px solid var(--accent-sage);
-    border-top: none;
-    padding: var(--space-md);
-    gap: var(--space-sm);
-    text-align: center;
-  }
-
-  .navbar-links.active {
-    display: flex;
-  }
-
-  .navbar-toggle {
-    display: flex;
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-highlights {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-content {
-    flex-direction: column;
-    gap: var(--space-md);
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  h1 {
-    font-size: 1.2rem;
-  }
-
-  h2 {
-    font-size: 0.9rem;
-  }
-
-  .hero-avatar {
-    width: 180px;
-    height: 180px;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn {
-    width: 100%;
-    max-width: 220px;
-    font-size: 0.55rem;
-  }
-
-  .pixel-particle {
-    display: none;
-  }
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
-  border-left: 4px solid var(--accent-sage);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--accent-coral);
-  border: 2px solid var(--bg-tertiary);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-sage);
-}
-
-/* Selection Color */
-::selection {
-  background: var(--accent-coral);
-  color: var(--bg-primary);
-}
-.project-img-real {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  image-rendering: auto; /* For screenshots we might want smooth or pixelated, lets try regular first as they are hi-res */
-  transition: transform 0.5s ease;
-}
-
-.project-card:hover .project-img-real {
-  transform: scale(1.1);
-}
-
-.about-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  image-rendering: pixelated;
-}
-/* ===== EXPERIENCE SECTION ===== */
-.experience-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.experience-item {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: var(--space-lg);
-  padding: var(--space-xl);
-}
-
-.experience-date {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.6rem;
-  color: var(--accent-coral);
-  padding-top: 8px;
-  line-height: 1.6;
-}
-
-.experience-role {
-  font-size: clamp(0.8rem, 2vw, 1.1rem);
-  margin-bottom: var(--space-xs);
-  color: var(--accent-sage);
-}
-
-.experience-company {
-  font-family: 'VT323', monospace;
-  font-size: 1.5rem;
-  color: var(--accent-sand);
-  margin-bottom: var(--space-sm);
-  display: block;
-}
-
-.experience-desc {
-  margin-bottom: var(--space-md);
-  font-size: 1.3rem;
-}
-
-.experience-tech {
-  display: flex;
-  gap: var(--space-xs);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-md);
-}
-
-/* ===== GALLERY SECTION ===== */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-xl);
-  justify-items: center;
-}
-
-.polaroid {
-  background: white;
-  padding: 1rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transform: rotate(var(--rotate, -2deg));
-  transition: all 0.3s ease;
-  width: 100%;
-  max-width: 350px;
-}
-
-.polaroid:nth-child(even) {
-  --rotate: 2deg;
-}
-
-.polaroid:nth-child(3n) {
-  --rotate: -1deg;
-}
-
-.polaroid:hover {
-  transform: rotate(0) scale(1.05) translateY(-10px);
-  z-index: 10;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
-.polaroid-image {
-  width: 100%;
-  height: 250px;
-  overflow: hidden;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-}
-
-.polaroid-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.polaroid-caption {
-  font-family: 'VT323', monospace;
-  font-size: 1.4rem;
-  color: #333;
-  text-align: center;
-}
-
-/* ===== ABOUT TERMINAL ===== */
-.terminal-window {
-  width: 100%;
-  height: 100%;
-  background: #1a1b26;
-  border-radius: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.terminal-header {
-  height: 30px;
-  background: #24283b;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  position: relative;
-}
-
-.terminal-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.terminal-dots span {
   width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  height: 16px;
+  border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+  background: var(--tiffany);
+  opacity: 0.35;
 }
 
-.terminal-dots span:nth-child(1) { background: #ff5f56; }
-.terminal-dots span:nth-child(2) { background: #ffbd2e; }
-.terminal-dots span:nth-child(3) { background: #27c93f; }
+.speck.coral { background: var(--coral); }
 
-.terminal-title {
-  position: absolute;
+/* ---------- Revelado ---------- */
+
+.rise {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+.rise.seen { opacity: 1; transform: none; }
+
+.lines { display: block; overflow: visible; }
+.line { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+
+.line > i {
+  display: block;
+  font-style: inherit;
+  transform: translateY(105%);
+  transition: transform 1s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+.seen .line > i { transform: none; }
+
+/* ---------- Cabecera ---------- */
+
+.top {
+  position: fixed;
+  top: 0;
   left: 0;
   right: 0;
-  text-align: center;
-  color: #7982a9;
-  font-family: 'VT323', monospace;
+  z-index: 100;
+  padding-block: 0.7rem;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: padding 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.top.docked {
+  padding-block: 0.45rem;
+  border-bottom-color: var(--line);
+  box-shadow: 0 8px 28px -18px rgba(21, 20, 15, 0.28);
+}
+
+.top-in { display: flex; align-items: center; gap: 1.5rem; width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  line-height: 1.05;
+  white-space: nowrap;
+  color: var(--ink);
+  flex: none;
+}
+
+/* El nombre: serif Didone itálica (Bodoni Moda) — trazos finos/gruesos
+   contrastados, aire editorial de revista, distinto a toda la tipografía
+   grotesca del resto del sitio a propósito. */
+.brand-name { font-family: 'Bodoni Moda', serif; font-style: italic; font-weight: 600; font-size: 1.8rem; letter-spacing: 0; }
+
+/* El rol: la misma tipografía y el mismo tratamiento que "Proyectos"
+   (Bricolage Grotesque, negrita, caja normal, tracking apretado) en vez
+   de mayúsculas espaciadas — así se lee como la misma familia visual. */
+.brand-role { font-family: var(--display); font-weight: 800; font-size: 0.78rem; letter-spacing: -0.02em; color: var(--ink); }
+
+.nav-links { display: flex; flex-wrap: nowrap; gap: 0.5rem; margin-left: auto; list-style: none; }
+
+/* En reposo: la grotesque normal del sitio. Al pasar el mouse (o en la
+   sección activa) cambia de FUENTE, no de color — pasa a la misma
+   itálica serif del nombre. La pastilla no va acá: es el cursor propio
+   el que se transforma en pastilla al pasar por estos links (ver
+   .cursor.pill en la sección del cursor). */
+.nav-links a {
+  position: relative;
+  display: block;
+  padding: 0.4rem 1rem;
+  font-family: var(--display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  transition: padding 0.25s;
+}
+
+.nav-links a:hover, .nav-links a.on {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0;
+}
+
+.top-side { display: flex; align-items: center; gap: 1.25rem; }
+
+.top-side button, .top-side a {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--line-strong);
+  transition: border-color 0.25s;
+}
+
+.top-side button:hover, .top-side a:hover { border-color: var(--ink); }
+
+/* Botón redondo de "•••" que abre el menú de pantalla completa. */
+.menu-dots {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s;
+}
+
+.menu-dots span { position: relative; width: 4px; height: 4px; border-radius: 50%; background: var(--ink); }
+.menu-dots span::before, .menu-dots span::after { content: ''; position: absolute; top: 0; width: 4px; height: 4px; border-radius: 50%; background: var(--ink); }
+.menu-dots span::before { left: -8px; }
+.menu-dots span::after { left: 8px; }
+.menu-dots:hover { background: var(--ink); }
+.menu-dots:hover span, .menu-dots:hover span::before, .menu-dots:hover span::after { background: var(--bg); }
+
+/* ---------- Menú de pantalla completa ---------- */
+
+.full-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--gutter);
+  overflow-y: auto;
+  animation: full-menu-in 0.3s var(--ease);
+}
+
+@keyframes full-menu-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.full-menu-name {
+  position: absolute;
+  top: var(--gutter);
+  left: var(--gutter);
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 1rem + 2vw, 2rem);
+  color: var(--ink);
+}
+
+.full-menu-close {
+  position: absolute;
+  top: var(--gutter);
+  right: var(--gutter);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  transition: background 0.25s, color 0.25s;
+}
+
+.full-menu-close:hover, .full-menu-close:focus-visible { background: var(--tiffany); color: var(--ink); }
+
+/* Tiene que entrar completo en una pantalla sin scroll — por eso cada
+   fila y el tamaño de letra son bastante más chicos que un titular
+   normal del sitio, aunque sigan siendo grandes para un link de menú. */
+.full-menu-list { list-style: none; max-width: var(--maxw); width: 100%; margin-inline: auto; }
+.full-menu-list li { border-bottom: 1px solid var(--line); }
+.full-menu-list li:first-child { border-top: 1px solid var(--line); }
+
+.full-menu-list button {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  width: 100%;
+  padding: clamp(0.35rem, 1.4vh, 0.7rem) 0;
+  text-align: left;
+}
+
+.full-menu-n { font-family: var(--display); font-size: 0.85rem; font-weight: 700; color: var(--dim); flex: none; }
+
+.full-menu-word {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 1.3rem + 6vh, 5rem);
+  color: var(--ink);
+  transition: color 0.25s;
+}
+
+.full-menu-list li:hover .full-menu-word { color: var(--tiffany); }
+
+.full-menu-list li.current .full-menu-word {
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+
+.full-menu-social { position: absolute; bottom: var(--gutter); right: var(--gutter); display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem; }
+.full-menu-social a { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em; color: var(--mist); }
+.full-menu-social a:hover { color: var(--ink); }
+
+/* ---------- Botones ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.7rem;
+  border-radius: 999px;
+  font-weight: 800;
   font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  transition: background 0.3s var(--ease), color 0.3s;
+}
+
+.btn-solid { background: var(--ink); color: var(--bg); }
+.btn-solid:hover { background: var(--tiffany); }
+
+.btn-outline { border: 1.5px solid var(--line-strong); color: var(--ink); }
+.btn-outline:hover { border-color: var(--coral); color: var(--coral); }
+
+/* ---------- Encabezado de sección ---------- */
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tiffany); flex: none; }
+.eyebrow.coral::before { background: var(--coral); }
+
+.title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 1.1rem + 4.6vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin-top: 1.3rem;
+}
+
+.title .hl { color: var(--tiffany); }
+.title .hl2 { color: var(--coral); }
+.title em { font-style: italic; font-weight: 400; }
+
+.lede { margin-top: 1.4rem; max-width: 48ch; color: var(--mist); font-size: clamp(1rem, 0.95rem + 0.2vw, 1.1rem); }
+
+#stack .lede { color: var(--ink); }
+#trayectoria .lede { color: var(--ink); }
+
+.band-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1.5rem; }
+.band-head .num { font-family: var(--display); font-size: 0.85rem; color: var(--dim); font-weight: 700; }
+
+.band-head.center { flex-direction: column; align-items: center; text-align: center; justify-content: center; margin-bottom: 0; }
+.band-head.center .eyebrow { justify-content: center; }
+.band-head.center .lede { margin-inline: auto; }
+/* "Proyectos" en la misma serif Didone itálica que el nombre en el nav
+   (Bodoni Moda), en vez de la grotesque del resto de los titulares. */
+.band-head.center .title { filter: url(#water-text); font-family: 'Bodoni Moda', serif; font-style: italic; font-weight: 600; letter-spacing: 0; }
+
+/* Misma tipografía que "Proyectos", "Directorio Interactivo 3D" y
+   "Lagro" — consistencia entre los títulos grandes del sitio. */
+#stack .title,
+#trayectoria .title { font-family: 'Bodoni Moda', serif; font-style: italic; font-weight: 600; letter-spacing: 0; }
+
+/* ---------- Directorio — proyecto destacado con video de fondo ---------- */
+
+/* Contenido dentro de .wrap (max-width + gutter lateral del sitio) en vez
+   de sangrado completo — el video queda como una pieza de contenido más,
+   no una franja de pantalla completa. */
+.showcase { padding-block: clamp(2rem, 5vw, 3.5rem); }
+
+.showcase-title {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.8rem, 1.3rem + 3vw, 3.2rem);
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.showcase-desc {
+  font-size: clamp(0.92rem, 0.85rem + 0.4vw, 1.05rem);
+  color: var(--ink);
+  max-width: 56ch;
+  margin-top: 0.6rem;
+}
+
+.showcase-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* ---------- Lagro — marco de teléfono ---------- */
+
+.phone-showcase {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.phone-showcase-text { text-align: left; }
+.phone-showcase-text .showcase-desc { margin-inline: 0; max-width: 52ch; }
+
+.phone-frame {
+  position: relative;
+  width: clamp(220px, 22vw, 290px);
+  aspect-ratio: 9 / 19.5;
+  margin-inline: auto;
+  padding: 14px;
+  background: var(--ink);
+  border-radius: 2.4rem;
+  box-shadow: 0 30px 50px -18px rgba(21, 20, 15, 0.45);
+  transform: perspective(1000px) rotateY(8deg) rotateX(4deg);
+}
+
+.phone-notch {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  transform: translateX(-50%);
+  width: 34%;
+  height: 22px;
+  background: var(--ink);
+  border-radius: 999px;
+  z-index: 1;
+}
+
+.phone-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1.7rem;
+}
+
+@media (max-width: 900px) {
+  .phone-showcase { grid-template-columns: 1fr; text-align: center; }
+  .phone-showcase-text { text-align: center; }
+  .phone-showcase-text .showcase-desc { margin-inline: auto; }
+  .phone-frame { order: -1; }
+}
+
+@media (max-width: 640px) {
+  .phone-frame { transform: none; }
+}
+
+/* ---------- Stack ---------- */
+
+/* Antes se perdía al lado del resto — más grande, sin línea debajo, y
+   con la misma tipografía que "Directorio Interactivo 3D" y "Lagro". */
+.row-name {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: clamp(1.7rem, 1.35rem + 1.6vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.tools-stack-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(460px, 54vw, 640px);
+  /* padding, no margin: un margin-top acá puede colapsar con el
+     margin-bottom de la leyenda de arriba y quedarse en un espacio más
+     chico de lo pedido — el padding no colapsa, así que el hueco es
+     siempre el mismo real, sin que la primera tarjeta le pise el texto. */
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  perspective: 1700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tools-stack-cam {
+  position: relative;
+  width: 100%;
+  max-width: 37rem;
+  height: 1px;
+  transform-style: preserve-3d;
+  transform: rotateX(52deg) rotateZ(-32deg);
+  will-change: transform;
+}
+
+/* Placa de vidrio: gradiente translúcido, no un color plano — cada
+   categoría es una lámina apilada en profundidad (translateZ vía JS). */
+.tools-layer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 32rem;
+  margin: -5.9rem 0 0 -16rem;
+  padding: 1.35rem 1.7rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.32));
+  border: 1.5px solid rgba(21, 20, 15, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 2px 0 rgba(21, 20, 15, 0.05);
+  transform-style: preserve-3d;
+  transition: box-shadow 0.3s ease;
+  opacity: 0;
+  cursor: grab;
+  touch-action: none;
+  will-change: transform, opacity;
+}
+
+.tools-layer:hover { box-shadow: 0 26px 34px -12px rgba(21, 20, 15, 0.3); }
+.tools-layer:active { cursor: grabbing; }
+
+.tools-layer-head { display: flex; align-items: baseline; gap: 0.85rem; }
+.tools-layer-n { font-family: var(--display); font-size: 0.95rem; font-weight: 800; color: var(--tiffany); }
+.tools-layer-name { font-family: var(--display); font-weight: 800; font-size: 1.75rem; letter-spacing: -0.015em; color: var(--ink); }
+
+/* Mismo lenguaje del mosaico de proyectos: fondo oscuro + fichas
+   blancas separadas por un hueco delgado, como juntas de baldosas. */
+.tools-layer-chips {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  background: var(--ink);
+  border-radius: 11px;
+  padding: 7px;
+}
+
+.tools-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.72rem;
+  background: var(--bg-2);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.tools-chip-icon { width: 17px; height: 17px; flex: none; color: var(--ink); }
+.tools-chip-icon svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+
+/* Mismo pilar de vidrio 3D que en laptop (no una lista plana) — solo
+   se achica el tamaño de tarjetas/perspectiva para que quepa. */
+@media (max-width: 640px) {
+  .tools-stack-stage { height: clamp(420px, 132vw, 560px); perspective: 950px; }
+  .tools-stack-cam { max-width: 19rem; }
+  .tools-layer {
+    width: 17rem;
+    margin: -7.5rem 0 0 -8.5rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 13px;
+  }
+  .tools-layer-head { gap: 0.6rem; }
+  .tools-layer-n { font-size: 0.75rem; }
+  .tools-layer-name { font-size: 1.15rem; }
+  .tools-layer-chips { gap: 5px; padding: 5px; }
+  .tools-chip { font-size: 0.68rem; padding: 0.32rem 0.55rem; gap: 0.32rem; }
+  .tools-chip-icon { width: 13px; height: 13px; }
+}
+
+/* ---------- Trayectoria ---------- */
+
+/* Cada trabajo es su propia "vitrina" chica: fondo de cristal oscuro con
+   2-4 facetas (una por logro numerado) que se iluminan según cuál logro
+   estás mirando — el fondo narra en qué parte de la historia estás, no
+   es solo decoración. */
+.job {
+  position: relative;
+  margin-block: clamp(1.25rem, 2.5vw, 2rem);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #17140f 0%, #241c17 50%, #5c4340 100%);
+  perspective: 800px;
+}
+
+.job-glass-bg { position: absolute; inset: 0; pointer-events: none; }
+
+.job-facet {
+  position: absolute;
+  border-radius: 40%;
+  background: radial-gradient(circle, rgba(188, 143, 143, 0.32), transparent 70%);
+  opacity: 0.16;
+  filter: blur(2px);
+  transition: opacity 0.6s ease;
+}
+
+.job-facet-0 { width: 46%; height: 70%; left: -8%; top: -20%; }
+.job-facet-1 { width: 40%; height: 60%; right: -6%; top: 10%; }
+.job-facet-2 { width: 50%; height: 55%; left: 30%; bottom: -25%; }
+.job-facet-3 { width: 34%; height: 50%; right: 15%; bottom: -15%; }
+
+.job-facet.is-active { opacity: 0.6; }
+
+.job-grid { position: relative; display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); transform-style: preserve-3d; }
+
+.job-main { transform-style: preserve-3d; }
+.job-meta { opacity: 0.78; }
+.job-when { font-family: var(--display); font-size: 0.85rem; font-weight: 700; color: var(--tiffany); }
+.job-where { margin-top: 0.4rem; font-size: 0.78rem; color: rgba(247, 242, 234, 0.6); font-weight: 600; }
+
+/* El título queda "más adelante" que el resto (única translateZ fija de
+   la tarjeta, sin cámara propia — la escena grande ya es "Trabajo
+   interno"; acá alcanza con la jerarquía de profundidad, no el parallax
+   completo). */
+.job-org {
+  transform: translateZ(24px);
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.6rem, 1.1rem + 2vw, 2.6rem);
+  letter-spacing: 0;
+  color: #f7f2ea;
+}
+
+.job-role { margin-top: 0.4rem; color: rgba(247, 242, 234, 0.7); font-weight: 700; }
+
+.job-list { position: relative; list-style: none; margin-top: 1.6rem; display: grid; gap: 1.1rem; max-width: 62ch; padding-left: 0.4rem; }
+
+/* Línea de profundidad: crece con scroll-reveal (.job.seen, ver useReveal
+   en App.jsx) en vez de aparecer ya dibujada de una. */
+.job-line { position: absolute; left: 1.1rem; top: 0.3rem; bottom: 0.3rem; width: 1px; background: rgba(247, 242, 234, 0.14); }
+.job-line-fill { display: block; width: 100%; height: 0%; background: var(--tiffany); transition: height 1.1s cubic-bezier(.4, 0, .2, 1); }
+.job.seen .job-line-fill { height: 100%; }
+
+.job-list li { position: relative; display: grid; grid-template-columns: 1.5rem 1fr; gap: 0.5rem; color: rgba(247, 242, 234, 0.68); transition: color 0.3s ease; }
+.job-list li b { color: #f7f2ea; font-weight: 700; }
+.job-list li i {
+  font-style: normal;
+  color: rgba(247, 242, 234, 0.4);
+  font-size: 0.75rem;
+  padding-top: 0.2rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.job-list li.is-active i { color: var(--tiffany); transform: scale(1.15); }
+.job-list li.is-active b { color: var(--tiffany); }
+
+/* Chips de vidrio, no rectángulos sólidos planos. */
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.4rem; }
+.tag {
+  position: relative;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(247, 242, 234, 0.82);
+  transition: transform 0.3s cubic-bezier(.2, .9, .3, 1.3), background 0.25s, box-shadow 0.3s ease;
+}
+
+.tag:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 16px -6px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- Proyectos: grid de tarjetas con filtros por categoría ---------- */
+
+/* Es la primera sección de la página: el título + pastillas quedan fijos
+   (sticky) bajo la nav mientras el grid de imágenes hace scroll por debajo;
+   se despegan solos cuando termina la sección. */
+.proyectos-first { position: relative; padding-bottom: clamp(3.75rem, 7vw, 6rem); }
+
+/* El sticky de "Proyectos" + filtros vive dentro de este envoltorio junto
+   con la grilla de imágenes — su "contenedor" para efectos de sticky
+   termina acá, no al final de toda la sección, así se suelta justo donde
+   terminan las imágenes en vez de seguir flotando sobre "Trabajo interno". */
+.proyectos-images { position: relative; }
+
+.proyectos-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: transparent;
+  padding-top: clamp(3.5rem, 7vw, 5rem);
+  padding-bottom: 1rem;
+}
+
+/* Filtros por categoría — una sola píldora blanca que agrupa los botones,
+   tipo segmented control, pegada justo debajo del título. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  width: fit-content;
+  margin-top: 0.35rem;
+  padding: 0.3rem;
+  border-radius: 999px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+}
+.filters.center { margin-inline: auto; }
+
+.filter-pill {
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  border: none;
+  color: var(--mist);
+  background: transparent;
+  transition: background 0.25s, color 0.25s;
+}
+
+.filter-pill sup { margin-left: 0.3rem; font-size: 0.7em; opacity: 0.7; }
+.filter-pill.on { background: var(--ink); color: var(--bg); }
+.filter-pill:hover:not(.on) { color: var(--ink); background: var(--line); }
+
+/* Píldora flotante de contacto: mismo diseño/tamaño que .filter-pill
+   (variante .on, rellena), pero fija y solo visible cerca del final
+   de la página — aparece cuando el footer entra en pantalla. */
+.contact-pill {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(5rem, 10vw, 7rem);
+  z-index: 21;
+  padding: 0.9rem 1.75rem;
+  font-size: 0.95rem;
+  transform: translate(-50%, 10px);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 10px 24px -10px rgba(21, 20, 15, 0.35);
+  transition: opacity 0.4s ease, transform 0.4s ease, background 0.25s;
+}
+.contact-pill.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.contact-pill:hover { background: var(--tiffany); }
+
+/* Pila de tarjetas tipo "page curl" real (WebGL, ver LIQUID_VERT/FRAG en
+   App.jsx). .works-stack es alto (rows.length * 100vh, inline) para dar
+   espacio de scroll; adentro, .works-stack-sticky queda fijo bajo el
+   header mientras dura ese scroll. Cada .works-row se apila exactamente
+   en el mismo lugar (position:absolute, inset:0) — la de arriba (z-index
+   más alto = la más vieja) se enrolla por su esquina en el shader de cada
+   imagen y va revelando la siguiente, que espera debajo, quieta y nítida.
+   El "doblez" no es CSS: es geometría curva real dentro del canvas. */
+.works-stack { position: relative; }
+
+.works-stack-sticky {
+  position: sticky;
+  /* top/height los fija JS con la altura real medida del header sticky */
+  overflow: hidden;
+}
+
+.works-row {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: center;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.work-card-inner { display: block; }
+
+.work-card-rule { margin-top: 1.1rem; border-top: 1.5px solid var(--ink); }
+
+.work-card-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.45rem; }
+.work-card-name { font-family: var(--display); font-size: 1.2rem; font-weight: 700; letter-spacing: -0.015em; }
+.work-card-kind { margin-top: 0.1rem; font-size: 0.82rem; color: var(--ink); font-weight: 600; }
+
+.work-card-go {
+  flex: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--ink);
+  transition: transform 0.3s var(--ease);
+}
+
+.work-card:hover .work-card-go { transform: translate(3px, 3px); }
+.work-card-go-off { color: var(--dim); opacity: 0.5; }
+.work-card:hover .work-card-go-off { transform: none; }
+
+.work-media {
+  position: relative;
+  /* Las capturas de proyecto son ~16:9. El contenedor debe seguir esa
+     proporción: si no, el "cover" (y el coverUv del shader) recortan los
+     lados y el texto pegado al borde de la captura se corta. */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  /* Transparente: ahora el fondo del sitio es una foto (fondo.jpg), no
+     un color plano — cualquier color sólido acá se notaría como un
+     parche. Donde la geometría del curl se aleja, se ve la foto. */
+  background: transparent;
+  cursor: none;
+  border: 1px solid var(--line);
+}
+
+.work-media canvas { display: block; width: 100% !important; height: 100% !important; }
+
+.work-media-fallback { position: absolute; inset: 0; }
+.work-media-fallback img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+/* Si la imagen de verdad falla en cargar, esto reemplaza el ícono roto
+   nativo del navegador por un relleno neutro — nunca un recuadro en
+   blanco con el ícono de imagen rota. */
+.work-media-error { position: absolute; inset: 0; background: var(--line); }
+
+/* Línea de arriba con el mismo peso que las de las tarjetas de proyecto
+   (.work-card-rule: 1.5px var(--ink)), no la línea tenue de --line. */
+.sealed-panel { border-top: 1.5px solid var(--ink); padding-top: clamp(2rem, 4vw, 3rem); margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+.sealed-note { max-width: 62ch; color: var(--ink); }
+
+/* "Vitrina flotante": una escena 3D real, no una decoración de fondo
+   con tarjetas planas encima. .sealed-glass-bg, .sealed-lines y
+   .sealed-cam son tres capas independientes dentro del mismo
+   perspective — cada una se mueve a su propia velocidad con el mouse
+   (el fondo de vidrio más, los paneles un poco, el texto casi nada). */
+.sealed-orbit {
+  position: relative;
+  height: clamp(340px, 42vw, 460px);
+  margin-top: 2rem;
+  overflow: hidden;
+  border-radius: 18px;
+  perspective: 1600px;
+  background: linear-gradient(135deg, #17140f 0%, #2b201c 45%, #6b4a48 100%);
+}
+
+/* ---- Fondo: cristales facetados, bien al fondo en Z ---- */
+
+.sealed-glass-bg {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
   pointer-events: none;
 }
 
-.terminal-body {
-  flex: 1;
-  padding: 15px;
-  font-family: 'VT323', monospace;
-  font-size: 1.1rem;
+.glass-shard {
+  position: absolute;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(188, 143, 143, 0.05) 55%, rgba(0, 0, 0, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
-.terminal-line {
+.shard-1 { width: 320px; height: 380px; left: 4%; top: -10%; transform: translateZ(-260px) rotateX(18deg) rotateY(-24deg) rotateZ(8deg); }
+.shard-2 { width: 260px; height: 300px; right: 6%; top: 18%; transform: translateZ(-320px) rotateX(-15deg) rotateY(28deg) rotateZ(-6deg); }
+.shard-3 { width: 220px; height: 250px; left: 36%; bottom: -14%; transform: translateZ(-200px) rotateX(20deg) rotateY(10deg) rotateZ(4deg); }
+
+/* ---- Hilos: conectan el bloque de rol con cada panel ---- */
+
+.sealed-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.sealed-lines line { stroke: rgba(245, 241, 234, 0.22); stroke-width: 1; transition: stroke 0.3s ease, stroke-width 0.3s ease; }
+.sealed-lines line.is-hover { stroke: var(--tiffany); stroke-width: 1.5; }
+
+/* ---- Primer plano: texto + paneles de vidrio ---- */
+
+.sealed-cam {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.sealed-hub {
+  position: absolute;
+  left: clamp(1.5rem, 4vw, 3rem);
+  top: 50%;
+  transform: translateY(-50%) translateZ(14px);
+  max-width: 12rem;
+  z-index: 2;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.sealed-hub-role { font-family: 'Bodoni Moda', serif; font-style: italic; font-weight: 600; font-size: 1.2rem; letter-spacing: 0; color: #f7f2ea; }
+.sealed-hub-org { margin-top: 0.35rem; font-size: 0.82rem; color: rgba(247, 242, 234, 0.72); }
+.sealed-hub-when { margin-top: 0.15rem; font-size: 0.74rem; color: rgba(247, 242, 234, 0.5); }
+
+.sealed-node {
+  position: absolute;
+  width: clamp(9rem, 16vw, 12rem);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Panel de vidrio esmerilado — ya no es una tarjeta blanca sólida.
+   Todo lo visual vive en .sealed-node-inner, no en .sealed-node: así el
+   arrastre de paralaje (JS, en el de afuera) y el resorte del hover
+   (CSS, acá adentro) no se pisan, son dos transforms compuestos. */
+.sealed-node-inner {
+  position: relative;
   display: flex;
-  gap: 8px;
-  margin-bottom: 5px;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 var(--shadow-y, 8px) calc(var(--shadow-y, 8px) * 2.4) rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateZ(-160px);
+  transition: transform 0.6s cubic-bezier(.2, .9, .3, 1.25), opacity 0.5s ease, filter 0.45s ease, box-shadow 0.35s ease, border-color 0.25s, backdrop-filter 0.35s ease;
 }
 
-.prompt { color: #bb9af7; }
-.command { color: #7aa2f7; }
-.terminal-output {
-  color: #9ece6a;
-  margin-bottom: 15px;
-  padding-left: 15px;
+/* Reposo real, no solo "ya llegó": los paneles más al fondo (z muy
+   negativo, ver App.jsx) se quedan tenues y con blur propio incluso
+   después de la entrada — sin esto, un panel que ya está nítido no
+   tiene nada de qué "enfocarse" al pasarle el cursor por encima, y el
+   hover se nota mucho menos ahí que en los paneles de adelante. */
+.sealed-node-inner.sealed-in { opacity: var(--rest-opacity, 1); filter: blur(var(--rest-blur, 0px)); transform: translateZ(0); }
+
+/* Sin :hover nativo a propósito: con varias tarjetas superpuestas en 3D,
+   el navegador puede creer que el cursor está sobre otra (la que queda
+   "encima" en el DOM/z-order) — todo el estado de hover lo decide el JS
+   comparando el cursor contra el rectángulo real en pantalla de cada
+   una, así siempre enfoca la que se ve bajo el cursor de verdad. */
+.sealed-node-inner.is-hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  opacity: 1;
+  filter: blur(0);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+  transform: translateZ(60px) scale(1.05);
+  box-shadow: 0 26px 34px -8px rgba(0, 0, 0, 0.5);
 }
 
-.blink {
-  animation: blink 1s step-end infinite;
+.sealed-node-inner.is-receded { transform: translateZ(-14px) scale(0.97); opacity: 0.55; filter: blur(2px); }
+
+.sealed-node-name { font-family: var(--display); font-weight: 700; font-size: 0.92rem; letter-spacing: -0.01em; color: #f7f2ea; }
+.sealed-node-tech { font-size: 0.68rem; color: rgba(247, 242, 234, 0.58); letter-spacing: 0.02em; font-weight: 600; }
+
+/* ---------- Mosaico de proyectos ---------- */
+
+/* Perspectiva en el contenedor exterior; la grilla en sí lleva la
+   rotación 3D permanente (JS la reajusta con el puntero, ver Mosaic en
+   App.jsx). Grid con gap + fondo oscuro = juntas negras entre "baldosas". */
+.mosaic-stage {
+  /* Margen lateral generoso a propósito: con la grilla inclinada en 3D
+     (rotateX/Y/Z), las esquinas se desplazan visualmente — sin este
+     colchón, las tarjetas de los bordes quedaban recortadas por el
+     overflow:hidden de acá. */
+  padding: clamp(3rem, 8vw, 6rem) clamp(2.5rem, 7vw, 5.5rem);
+  perspective: 1800px;
+  overflow: hidden;
 }
 
-@keyframes blink {
-  50% { opacity: 0; }
+.mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: clamp(130px, 14vw, 190px);
+  gap: 6px;
+  max-width: 1400px;
+  margin-inline: auto;
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 6px;
+  transform-style: preserve-3d;
+  transform: perspective(1800px) rotateX(8deg) rotateY(-6deg) rotateZ(2deg);
+  will-change: transform;
 }
 
-@media (max-width: 768px) {
-  .experience-item {
-    grid-template-columns: 1fr;
-    gap: var(--space-sm);
-    padding: var(--space-lg);
+.mosaic-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--bg-2);
+  transform-style: preserve-3d;
+}
+
+.mosaic-card .work-media { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border: 0; }
+
+.mosaic-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(10, 10, 8, 0.78) 100%);
+  pointer-events: none;
+}
+
+.mosaic-card-title {
+  position: absolute;
+  left: 1.1rem;
+  bottom: 0.9rem;
+  right: 1rem;
+  z-index: 1;
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.05rem, 0.9rem + 1vw, 1.6rem);
+  line-height: 1.1;
+  color: #fff;
+}
+
+.mosaic-card-tag {
+  position: absolute;
+  left: 0.9rem;
+  top: 0.9rem;
+  z-index: 1;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  font-family: var(--display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+}
+
+.mosaic-card-expand {
+  position: absolute;
+  right: 0.9rem;
+  top: 0.9rem;
+  z-index: 1;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .mosaic-stage { perspective: none; padding-inline: 0.75rem; }
+  .mosaic-grid { grid-template-columns: repeat(2, 1fr); transform: none !important; }
+  .mosaic-card { grid-column: span 1 !important; grid-row: span 1 !important; }
+}
+
+
+/* Barra fija inferior de la página principal, siempre visible (como el
+   fondo, que también es fixed) — no hay que llegar al footer real para
+   verla. Debajo del Preloader (500) y de LandingOverlay (50) para quedar
+   tapada mientras esos overlays siguen encima. */
+.site-foot {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: clamp(1.75rem, 4vw, 2.75rem);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline-start: var(--gutter);
+  padding-inline-end: clamp(0.85rem, 2.4vw, 1.4rem);
+  pointer-events: none;
+}
+
+/* El botón de idioma queda en el centro exacto de la barra (no en el
+   centro del hueco que le dejan los otros dos elementos vía
+   space-between, que varía según su ancho). */
+.foot-lang {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.site-foot > * { pointer-events: auto; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1024px) {
+  .works-row { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 1080px) {
+  .cursor, .cursor-label { display: none; }
+  body.cursor-ready, body.cursor-ready a, body.cursor-ready button { cursor: auto; }
+
+  .top-side .hide-mobile { display: none; }
+  .job-grid { grid-template-columns: minmax(0, 1fr); gap: 0.85rem; }
+  .job-when { font-size: 0.8rem; }
+}
+
+/* Sin el burger/dropdown de antes, la navegación completa vive en el
+   menú de pantalla completa — en angosto alcanza con el nombre, el botón
+   de puntos y el de idioma; los 3 links compactos se esconden. */
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  /* Las letras siguen gigantes en mobile (pedido explícito) — lo que
+     cambia es que .full-menu ya no las centra verticalmente (con texto
+     tan grande, centrado + overflow deja contenido inalcanzable arriba)
+     sino que arranca pegado arriba y se puede desplazar con scroll si
+     las 4 opciones no entran completas en pantalla. Los enlaces
+     sociales pasan a formar parte del flujo (ya no position:absolute)
+     para que no queden flotando encima del último ítem de la lista. */
+  .full-menu { padding: 1.1rem; justify-content: flex-start; padding-top: 4.5rem; }
+  .full-menu-name { font-size: 1rem; top: 1.1rem; left: 1.1rem; }
+  .full-menu-close { top: 1.1rem; right: 1.1rem; width: 36px; height: 36px; }
+  .full-menu-list button { padding-block: 0.6rem; gap: 0.9rem; }
+  .full-menu-n { font-size: 0.8rem; }
+  .full-menu-word { font-size: clamp(2.1rem, 13vw, 3.4rem); }
+  .full-menu-social {
+    position: static;
+    margin-top: 1.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1.1rem;
   }
-  
-  .experience-date {
-    padding-top: 0;
-    margin-bottom: var(--space-xs);
+  /* Sin espacio para orbitar ni cursor fino en pantallas chicas: se
+     apila en una lista simple, sin paralaje ni inclinación de cámara —
+     el fondo de vidrio se queda, pero estático (los cristales grandes
+     ya no caben bien en 3D a este ancho). */
+  .sealed-orbit { height: auto; perspective: none; }
+  .sealed-glass-bg { transform: none !important; }
+  .sealed-lines { display: none; }
+  .sealed-cam {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    transform: none !important;
   }
+  .sealed-hub { position: static; transform: none !important; max-width: none; margin-bottom: 0.25rem; }
+  .sealed-node { position: relative; left: auto !important; top: auto !important; width: auto; transform: none !important; }
+  .sealed-node-inner {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .rise, .line > i { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   Preloader de entrada — letra a letra, cortina de color, monograma.
+   Paleta y tipografías propias (Fraunces/Inter), deliberadamente
+   distintas del resto del sitio: es una "portada" antes de la portada.
+   ============================================================ */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  overflow: hidden;
+  transition: transform 1.3s cubic-bezier(.76, 0, .24, 1), filter 1.3s cubic-bezier(.76, 0, .24, 1);
+}
+
+/* No es solo una cortina que sube: se aleja y se desenfoca a la vez, como
+   si te hundieras dejándola atrás — más profundidad que un slide plano. */
+.preloader.pl-exit { transform: translateY(-100%) scale(1.08); filter: blur(10px); }
+
+.pl-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.pl-dark { background: #17140f; z-index: 1; }
+
+.pl-rose {
+  /* El rosa viejo #bc8f8f como color principal de la cortina, no el
+     rosa claro original — es el mismo tono que ahora usa todo el sitio. */
+  background: #bc8f8f;
+  z-index: 2;
+  /* Arranca recortada desde arriba (top-inset 100%) = altura visible 0.
+     Al llegar la letra #5, .pl-sweep baja el inset a 0% y la cortina
+     sube desde abajo revelando todo el fondo rosa. */
+  clip-path: inset(100% 0 0 0);
+}
+
+.pl-rose.pl-sweep {
+  clip-path: inset(0% 0 0 0);
+  transition: clip-path 1050ms cubic-bezier(.65, 0, .35, 1);
+}
+
+.pl-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(0.4rem, 1.2vw, 0.65rem);
+  max-width: 90vw;
+}
+
+.pl-letter {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: clamp(3rem, 10vw, 7rem);
+  line-height: 1;
+  min-width: 1ch;
+}
+
+.pl-dark .pl-letter { color: #bc8f8f; }
+.pl-rose .pl-letter { color: #2b2521; }
+
+/* Glitch de "recorte y ensamblaje": clip-path + desplazamiento +
+   parpadeo de opacidad, monocromático (sin separación RGB). En React
+   se reinicia solo: la letra cambia de "key" en cada tick y el elemento
+   se remonta de cero, así que la animación arranca de nuevo sin trucos
+   de reflow manual. */
+.pl-glitch { animation: pl-letter-glitch 620ms cubic-bezier(.2, .7, .2, 1); }
+
+@keyframes pl-letter-glitch {
+  0%   { clip-path: inset(0% 0 0 0);   transform: translateX(10px); opacity: 1; }
+  22%  { clip-path: inset(55% 0 0 0);  transform: translateX(10px); opacity: .5; }
+  46%  { clip-path: inset(30% 0 0 0);  transform: translateX(-8px); opacity: .6; }
+  70%  { clip-path: inset(0% 0 30% 0); transform: translateX(8px);  opacity: .5; }
+  88%  { clip-path: inset(0% 0 0 0);   transform: translateX(-5px); opacity: 1; }
+  100% { clip-path: inset(0% 0 0 0);   transform: translateX(0);    opacity: 1; }
+}
+
+.pl-brand { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(0.95rem, 1.4vw, 1.15rem); }
+.pl-brand .pl-reg { font-size: 0.65em; vertical-align: super; }
+.pl-dark .pl-brand { color: #bc8f8f; opacity: 0.32; }
+.pl-rose .pl-brand { color: #2b2521; opacity: 1; }
+
+/* El monograma "DR" vive en una tarjeta 3D: al pasar el mouse por el
+   CTA, gira sobre su eje Y y del otro lado aparece la flecha del botón
+   ampliada, en rojo — la misma idea de "ir hacia adelante" del botón. */
+.pl-icon-wrap {
+  position: relative;
+  width: clamp(3rem, 10vw, 7rem);
+  height: clamp(3rem, 10vw, 7rem);
+  color: #2b2521;
+  perspective: 600px;
+}
+
+.pl-icon-flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 550ms cubic-bezier(.65, 0, .35, 1);
+}
+
+.pl-icon-wrap.pl-flip .pl-icon-flip { transform: rotateY(180deg); }
+
+.pl-icon-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.pl-monogram circle { stroke: #bc8f8f; transition: stroke 550ms ease; }
+.pl-monogram text { fill: currentColor; }
+.pl-icon-wrap.pl-flip .pl-monogram circle { stroke: #17140f; }
+
+.pl-icon-back { transform: rotateY(180deg); color: #17140f; }
+.pl-icon-back circle { stroke: #17140f; }
+.pl-icon-back path { stroke: #17140f; }
+
+.pl-final {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.pl-final.pl-in { opacity: 1; transform: translateY(0); }
+
+.pl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.7rem;
+  border-radius: 999px;
+  background: #fff;
+  border: 1.5px solid #2b2521;
+  color: #2b2521;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.pl-btn:hover, .pl-btn:focus-visible { background: #2b2521; color: #fff; }
+.pl-btn svg { flex: none; }
+
+/* Aparte de .pl-final (que solo trae el botón "Entrar"): vive anclado
+   abajo de la capa rosa, no apilado bajo el CTA principal. */
+.pl-silent {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.75rem, 4vw, 3rem);
+  z-index: 1;
+  transform: translate(-50%, 10px);
+  opacity: 0;
+  transition: opacity 600ms ease, transform 600ms ease;
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #2b2521;
+  cursor: pointer;
+}
+
+.pl-silent.pl-in { opacity: 1; transform: translate(-50%, 0); }
+
+.pl-silent:hover, .pl-silent:focus-visible { font-family: 'Bodoni Moda', serif; font-style: italic; }
+
+/* ---------- Landing — pantalla previa a Proyectos ---------- */
+
+/* Overlay fijo, no una sección del documento — así no se puede volver a
+   ver haciendo scroll hacia arriba una vez descartado. Se monta desde el
+   inicio pero el Preloader (más z-index) lo tapa hasta que se cierra
+   solo. */
+.landing-hero {
+  position: fixed;
+  inset: 0;
+  /* Por debajo del nav (100) y del grano (150) — si no, este overlay les
+     tapaba el nav y el efecto de grano en vez de dejarlos ver encima,
+     como en el resto del sitio. Sigue por encima del contenido normal
+     (.shell, 1) y por debajo del Preloader (500), que es lo único que
+     debe taparlo mientras dura. */
+  z-index: 50;
+  background: #17140f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  transition: opacity 1.3s cubic-bezier(.76, 0, .24, 1), visibility 1.3s, transform 1.3s cubic-bezier(.76, 0, .24, 1), filter 1.3s cubic-bezier(.76, 0, .24, 1);
+}
+
+/* Idéntica a la salida del preloader (mismo transform, mismo blur, mismo
+   tiempo y curva) para que "Ver Proyectos" se sienta exactamente igual
+   que "Entrar". */
+.landing-hero.landing-exit { opacity: 0; visibility: hidden; transform: translateY(-100%) scale(1.08); filter: blur(10px); }
+
+/* La imagen de fondo ya no es un background-image estático: es el mismo
+   LiquidImage WebGL de las tarjetas de proyecto (agua + aberración
+   cromática siempre activas), estirado a pantalla completa. */
+.landing-bg { position: absolute; inset: 0; z-index: 0; }
+.landing-bg .work-media { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border: 0; }
+.landing-bg .work-media-fallback img { object-fit: cover; }
+
+.landing-in { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 0; padding-inline: var(--gutter); }
+
+.landing-name {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.5rem, 2rem + 5vw, 5.5rem);
+  color: var(--ink);
+}
+
+/* Brillo del título "Proyectos": franja clara que barre de lado a lado. */
+.band-head.center .title {
+  background-image: linear-gradient(100deg, var(--ink) 42%, #fff 50%, var(--ink) 58%);
+  background-size: 260% 100%;
+  background-position: 200% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: landing-shine 12s linear infinite;
+}
+
+/* Brillo del nombre + el rol debajo: banda diagonal (no horizontal) que
+   cae desde la esquina superior izquierda del nombre hacia abajo,
+   cubriendo también la línea del rol. background-attachment: fixed hace
+   que las dos líneas —aunque son elementos de texto separados— compartan
+   la MISMA posición de franja en el espacio del viewport, así se ve como
+   un solo brillo continuo cruzando ambas en vez de dos brillos
+   independientes y desincronizados. */
+.landing-name.landing-shine, .landing-role.landing-shine {
+  background-image: linear-gradient(128deg, var(--ink) 42%, #fff 50%, var(--ink) 58%);
+  background-attachment: fixed;
+  background-size: 260% 100%;
+  background-position: 200% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: landing-shine 12s linear infinite;
+}
+
+/* Sin tramos de "pausa" ni easing: la franja recorre a velocidad
+   constante de punta a punta, así el ciclo se ve igual de rápido siempre
+   en vez de acelerar en el segundo pase. */
+@keyframes landing-shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.landing-role {
+  margin-top: -0.4rem;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.1rem, 1rem + 1.8vw, 1.9rem);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.landing-cta {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.9rem;
+  border-radius: 999px;
+  background: #fff;
+  border: 1.5px solid #2b2521;
+  color: #2b2521;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.landing-cta svg { flex: none; }
+
+.landing-cta:hover, .landing-cta:focus-visible { background: #2b2521; color: #fff; }
+
+/* Barra inferior de la pantalla "Ver Proyectos": música a la izquierda,
+   idioma al centro, copyright a la derecha — igual que la referencia. */
+.landing-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(1.25rem, 3vw, 2.25rem);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--gutter);
+}
+
+.landing-foot-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.landing-foot-btn:hover, .landing-foot-btn:focus-visible { background: var(--ink); color: #fff; }
+
+/* Icono de música: 4 barritas tipo ecualizador. Quietas (a media altura)
+   mientras no suena nada; en cuanto la música arranca, rebotan cada una
+   con su propio retraso, como un visualizador real. */
+.landing-eq { display: flex; align-items: flex-end; gap: 2.5px; height: 14px; }
+.landing-eq span { width: 2.5px; height: 35%; background: currentColor; border-radius: 2px; }
+
+.landing-foot-btn.eq-playing .landing-eq span { animation: landing-eq-bounce 0.9s ease-in-out infinite; }
+.landing-foot-btn.eq-playing .landing-eq span:nth-child(1) { animation-delay: 0s; }
+.landing-foot-btn.eq-playing .landing-eq span:nth-child(2) { animation-delay: 0.18s; }
+.landing-foot-btn.eq-playing .landing-eq span:nth-child(3) { animation-delay: 0.36s; }
+.landing-foot-btn.eq-playing .landing-eq span:nth-child(4) { animation-delay: 0.12s; }
+
+@keyframes landing-eq-bounce {
+  0%, 100% { height: 35%; }
+  50% { height: 100%; }
+}
+
+.landing-copyright {
+  font-family: var(--body);
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+
+/* Vista de contacto — jerarquía: título (itálica, el más grande) a la
+   izquierda ~38% del ancho; a su derecha, en la misma fila, las dos
+   píldoras; debajo de las píldoras (compartiendo su margen izquierdo,
+   no el del título) la leyenda + el correo en grande; y por último,
+   alineados de vuelta con el título, GitHub/LinkedIn como enlaces
+   secundarios. Todo el bloque cuelga de una sola columna vertical. */
+.contact-hero .landing-in {
+  align-items: flex-start;
+  text-align: left;
+  margin-inline-end: auto;
+  margin-inline-start: clamp(1.5rem, 6vw, 4rem);
+  max-width: min(94vw, 64rem);
+}
+
+/* flex-shrink: 0 a propósito: el título nunca se debe comprimir por el
+   espacio que piden las píldoras — si no cabe junto a ellas, .contact-cols
+   lo manda a su propia línea (flex-wrap: wrap) en vez de recortarlo. El
+   padding-right compensa la inclinación itálica, que visualmente pide
+   más aire a la derecha que una tipografía recta. */
+.contact-hero .landing-name {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  width: auto;
+  max-width: none;
+  overflow: visible;
+  padding-right: 1rem;
+  font-size: clamp(1.5rem, 1.05rem + 2vw, 2.2rem);
+  white-space: nowrap;
+}
+
+.contact-cols {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.25rem);
+}
+
+/* Píldoras arriba, leyenda + correo abajo — apiladas, no en la misma
+   fila que el título. */
+.contact-side {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.contact-routes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.contact-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.375rem;
+  border-radius: 999px;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #2b2521;
+  transition: background 0.25s, color 0.25s;
+}
+
+.contact-route.solid { background: #fff; border: 1.5px solid transparent; }
+.contact-route.outline { background: transparent; border: 1px solid rgba(43, 37, 33, 0.55); }
+.contact-route:hover { background: #2b2521; color: #fff; border-color: #2b2521; }
+.contact-route svg { flex: none; }
+
+/* Leyenda + correo, en la misma fila (no uno encima del otro). */
+.contact-lead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.contact-lead-caption {
+  font-family: var(--body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.35;
+  max-width: 11rem;
+  color: #2b2521;
+}
+
+.contact-email {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 0.9rem + 1.4vw, 1.55rem);
+  letter-spacing: -0.01em;
+  color: #2b2521;
+  transition: opacity 0.25s;
+}
+
+.contact-email:hover { opacity: 0.6; }
+
+/* De vuelta en la columna del título, no en la de las píldoras. */
+.contact-secondary {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  display: flex;
+  gap: 1.5rem;
+}
+
+.contact-secondary a {
+  font-family: var(--body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #2b2521;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity 0.25s;
+}
+
+.contact-secondary a:hover { opacity: 0.6; }
+
+@media (max-width: 640px) {
+  .contact-hero .landing-in { margin-inline: auto; align-items: center; text-align: center; }
+  .contact-cols { flex-direction: column; align-items: center; }
+  .contact-hero .landing-name { white-space: normal; flex-basis: auto; max-width: none; }
+  .contact-side { align-items: center; }
+  .contact-routes, .contact-secondary { justify-content: center; }
+  .contact-lead { flex-direction: column; align-items: center; text-align: center; }
+  .contact-lead-caption { max-width: none; }
 }

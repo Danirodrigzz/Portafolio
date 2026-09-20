@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tres portadas para elegir</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@75..125,400..900&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #111; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ---- barra de etiqueta ---- */
+    .tab {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: 0.85rem clamp(1rem, 4vw, 3rem);
+      background: #111;
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .tab b { color: #ffd166; font-weight: 500; }
+    .tab span { color: #9aa0a6; text-transform: none; letter-spacing: 0.04em; font-size: 0.75rem; }
+
+    .stage { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .in { width: 100%; max-width: 1240px; margin-inline: auto; padding: clamp(3rem, 7vw, 5rem) clamp(1.25rem, 5vw, 4rem); }
+
+    /* ==========================================================
+       OPCIÓN 1 — Suave y con color
+       ========================================================== */
+    .o1 { background: #f4f2ff; color: #1a1533; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .o1 .in { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+    .o1 .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; }
+    .o1 .b1 { width: 480px; height: 480px; background: #b7a6ff; top: -140px; right: 8%; }
+    .o1 .b2 { width: 380px; height: 380px; background: #ffb3c8; bottom: -120px; left: -60px; }
+    .o1 .b3 { width: 320px; height: 320px; background: #8ef0dc; top: 40%; right: 42%; opacity: 0.4; }
+    .o1 .col { position: relative; z-index: 2; }
+    .o1 .badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #fff; border: 1px solid #e3ddff; border-radius: 999px;
+      padding: 0.45rem 0.9rem; font-size: 0.82rem; font-weight: 600; color: #5b4bd6;
+      box-shadow: 0 6px 20px rgba(90, 70, 200, 0.08);
+    }
+    .o1 .badge i { width: 7px; height: 7px; border-radius: 50%; background: #16c79a; display: block; }
+    .o1 h1 { font-size: clamp(2.3rem, 1.2rem + 3.2vw, 3.7rem); font-weight: 800; line-height: 1.06; letter-spacing: -0.035em; margin: 1.4rem 0 0; }
+    .o1 h1 em { font-style: normal; color: #6b4eff; }
+    .o1 .sub { margin-top: 1.2rem; max-width: 44ch; font-size: 1.08rem; line-height: 1.6; color: #514a6b; }
+    .o1 .cta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
+    .o1 .btn { border-radius: 999px; padding: 0.95rem 1.7rem; font-weight: 700; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .o1 .btn-a { background: #6b4eff; color: #fff; box-shadow: 0 10px 26px rgba(107, 78, 255, 0.32); }
+    .o1 .btn-b { background: #fff; color: #1a1533; border: 1px solid #ded7ff; }
+    .o1 .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2.4rem; }
+    .o1 .tag { background: #fff; border: 1px solid #e8e3ff; border-radius: 10px; padding: 0.4rem 0.8rem; font-size: 0.82rem; font-weight: 600; color: #4a4266; }
+    .o1 .shot { position: relative; z-index: 2; }
+    .o1 .shot img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 20%; border-radius: 32px; box-shadow: 0 30px 70px rgba(60, 40, 150, 0.18); }
+    .o1 .chip {
+      position: absolute; background: #fff; border-radius: 16px; padding: 0.7rem 1rem;
+      box-shadow: 0 12px 30px rgba(60, 40, 150, 0.14); font-size: 0.85rem; font-weight: 700;
+      display: flex; align-items: center; gap: 0.55rem;
+    }
+    .o1 .chip small { display: block; font-weight: 500; color: #7a7392; font-size: 0.72rem; }
+    .o1 .c1 { left: -28px; top: 16%; }
+    .o1 .c2 { right: -22px; bottom: 18%; }
+    .o1 .dot { width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center; font-size: 0.9rem; }
+
+    /* ==========================================================
+       OPCIÓN 2 — Aurora y vidrio
+       ========================================================== */
+    .o2 { background: #f7f7fb; color: #12121a; font-family: 'Sora', sans-serif; }
+    .o2 .aur { position: absolute; border-radius: 50%; filter: blur(90px); }
+    .o2 .a1 { width: 700px; height: 700px; background: linear-gradient(140deg, #ff9ec7, #ffd28f); top: -260px; left: -140px; opacity: 0.75; }
+    .o2 .a2 { width: 640px; height: 640px; background: linear-gradient(140deg, #8ab6ff, #c69bff); bottom: -240px; right: -120px; opacity: 0.7; }
+    .o2 .a3 { width: 460px; height: 460px; background: linear-gradient(140deg, #7defd0, #8ab6ff); top: 30%; left: 42%; opacity: 0.45; }
+    .o2 .glass {
+      position: relative; z-index: 2;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border-radius: 30px;
+      padding: clamp(1.75rem, 4vw, 3.25rem);
+      box-shadow: 0 30px 80px rgba(40, 30, 90, 0.12);
+      display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+      gap: clamp(1.5rem, 4vw, 3rem); align-items: center;
+    }
+    .o2 .eyebrow { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #6a6a86; }
+    .o2 h1 { font-size: clamp(2.3rem, 1.2rem + 4vw, 4.1rem); font-weight: 600; line-height: 1.06; letter-spacing: -0.03em; margin-top: 1rem; }
+    .o2 h1 span { background: linear-gradient(100deg, #ff6f9c, #7b5cff 60%, #12a7ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .o2 .sub { margin-top: 1.15rem; max-width: 46ch; color: #4c4c63; font-weight: 300; line-height: 1.65; font-size: 1.05rem; }
+    .o2 .cta { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 2rem; }
+    .o2 .btn { border-radius: 14px; padding: 0.9rem 1.5rem; font-size: 0.92rem; font-weight: 500; }
+    .o2 .btn-a { background: #12121a; color: #fff; }
+    .o2 .btn-b { background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(18, 18, 26, 0.12); }
+    .o2 .shot { border-radius: 22px; overflow: hidden; box-shadow: 0 20px 50px rgba(40, 30, 90, 0.18); }
+    .o2 .shot img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center 18%; }
+    .o2 .row { display: flex; gap: 1.6rem; flex-wrap: wrap; margin-top: 2.2rem; padding-top: 1.5rem; border-top: 1px solid rgba(18, 18, 26, 0.1); }
+    .o2 .row div b { display: block; font-size: 1.3rem; font-weight: 600; }
+    .o2 .row div span { font-size: 0.78rem; color: #6a6a86; }
+
+    /* ==========================================================
+       OPCIÓN 3 — Editorial blanco y negro
+       ========================================================== */
+    .o3 { background: #fff; color: #0b0b0b; font-family: 'Archivo', sans-serif; }
+    .o3 .in { padding-top: clamp(2rem, 5vw, 3.5rem); }
+    .o3 .top { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid #0b0b0b; padding-bottom: 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .o3 h1 {
+      font-size: clamp(2.6rem, 0.8rem + 5.4vw, 5.2rem);
+      font-weight: 800; font-stretch: 112%; line-height: 0.88; letter-spacing: -0.045em;
+      text-transform: uppercase; margin-top: clamp(1.5rem, 4vw, 3rem);
+    }
+    .o3 h1 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; text-transform: none; letter-spacing: -0.01em; }
+    .o3 .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr); gap: clamp(1.5rem, 4vw, 3rem); margin-top: clamp(1.5rem, 4vw, 2.5rem); align-items: end; }
+    .o3 .sub { font-size: 1.05rem; line-height: 1.55; max-width: 40ch; color: #2b2b2b; font-weight: 400; }
+    .o3 .meta { font-family: 'DM Mono', monospace; font-size: 0.75rem; line-height: 2; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1.5rem; }
+    .o3 .meta i { color: #9a9a9a; font-style: normal; display: inline-block; width: 5.5rem; }
+    .o3 .shot { position: relative; }
+    .o3 .shot img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 18%; filter: grayscale(1) contrast(1.08); transition: filter 0.5s; }
+    .o3 .shot:hover img { filter: none; }
+    .o3 .shot figcaption { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b6b6b; margin-top: 0.5rem; display: flex; justify-content: space-between; }
+    .o3 .cta { display: flex; align-items: center; gap: 1.75rem; margin-top: clamp(1.75rem, 4vw, 2.5rem); border-top: 1.5px solid #0b0b0b; padding-top: 1.1rem; flex-wrap: wrap; }
+    .o3 .cta a { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1.5px solid #0b0b0b; padding-bottom: 3px; }
+    .o3 .cta a.ghost { border-color: #c9c9c9; color: #6b6b6b; }
+    .o3 .marq { margin-top: auto; font-family: 'DM Mono', monospace; }
+
+    @media (max-width: 900px) {
+      .o1 .in, .o2 .glass, .o3 .grid { grid-template-columns: minmax(0, 1fr); }
+      .o1 .chip { display: none; }
+      .stage { min-height: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ OPCIÓN 1 ============ -->
+  <div class="tab">
+    <span style="color:#fff"><b>OPCIÓN 1</b> &nbsp;·&nbsp; Suave y con color</span>
+    <span>Violeta, menta y rosa sobre fondo claro. Formas difuminadas, esquinas redondas, tarjetas flotando. Cercano y actual.</span>
+  </div>
+  <section class="stage o1">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="in">
+      <div class="col">
+        <span class="badge"><i></i> Disponible para nuevos proyectos</span>
+        <h1>Hola, soy Daniela.<br />Construyo <em>apps y sistemas</em><br />que se usan a diario.</h1>
+        <p class="sub">Desarrolladora Full-Stack. Flutter, Angular y React — de apps móviles a paneles administrativos y pasarelas de pago.</p>
+        <div class="cta">
+          <a class="btn btn-a" href="#">Ver mis proyectos →</a>
+          <a class="btn btn-b" href="#">Descargar CV</a>
+        </div>
+        <div class="tags">
+          <span class="tag">Flutter</span><span class="tag">Angular</span><span class="tag">React</span>
+          <span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Supabase</span>
+        </div>
+      </div>
+      <div class="shot">
+        <img src="/dani.jpg" alt="Daniela Rodríguez" />
+        <div class="chip c1">
+          <span class="dot" style="background:#ede8ff">💜</span>
+          <span>11 proyectos<small>entregados</small></span>
+        </div>
+        <div class="chip c2">
+          <span class="dot" style="background:#e0fff6">🧪</span>
+          <span>Pruebas E2E<small>en producción</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OPCIÓN 2 ============ -->
+  <div class="tab">
+    <span style="color:#fff"><b>OPCIÓN 2</b> &nbsp;·&nbsp; Aurora y vidrio</span>
+    <span>Auroras de color difuminadas y un panel de vidrio esmerilado encima. Elegante, tipo producto premium.</span>
+  </div>
+  <section class="stage o2">
+    <div class="aur a1"></div>
+    <div class="aur a2"></div>
+    <div class="aur a3"></div>
+    <div class="in">
+      <div class="glass">
+        <div>
+          <p class="eyebrow">Full-Stack Developer · Venezuela</p>
+          <h1>Daniela Rodríguez<br /><span>construye producto</span>, no solo pantallas.</h1>
+          <p class="sub">Apps móviles en Flutter, sistemas financieros en Angular y plataformas web en React. Con pruebas automatizadas, porque lo que se entrega tiene que aguantar.</p>
+          <div class="cta">
+            <a class="btn btn-a" href="#">Ver proyectos</a>
+            <a class="btn btn-b" href="#">Descargar CV</a>
+          </div>
+          <div class="row">
+            <div><b>11</b><span>Proyectos</span></div>
+            <div><b>3</b><span>Equipos</span></div>
+            <div><b>2</b><span>Países</span></div>
+            <div><b>4</b><span>Niveles de prueba</span></div>
+          </div>
+        </div>
+        <div class="shot"><img src="/dani.jpg" alt="Daniela Rodríguez" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OPCIÓN 3 ============ -->
+  <div class="tab">
+    <span style="color:#fff"><b>OPCIÓN 3</b> &nbsp;·&nbsp; Editorial blanco y negro</span>
+    <span>Papel blanco, tipografía gigante, líneas finas y foto en blanco y negro que se colorea al pasar el mouse.</span>
+  </div>
+  <section class="stage o3">
+    <div class="in">
+      <div class="top">
+        <span>Daniela Rodríguez</span>
+        <span>Full-Stack Developer</span>
+        <span>Caracas / Remoto — 2026</span>
+      </div>
+      <h1>Diseño y<br />construyo <em>software</em><br />que se usa.</h1>
+      <div class="grid">
+        <div>
+          <p class="sub">Apps móviles en Flutter, sistemas financieros en Angular y plataformas web en React. Tres equipos, dos países, once proyectos entregados.</p>
+          <p class="meta">
+            <i>Móvil</i> Flutter · React Native<br />
+            <i>Web</i> React · Angular · Next.js<br />
+            <i>Datos</i> Supabase · PostgreSQL<br />
+            <i>Calidad</i> Unitarias · E2E
+          </p>
+        </div>
+        <figure class="shot">
+          <img src="/dani.jpg" alt="Daniela Rodríguez" />
+          <figcaption><span>Daniela Rodríguez</span><span>Fig. 01</span></figcaption>
+        </figure>
+      </div>
+      <div class="cta">
+        <a href="#">Ver proyectos</a>
+        <a href="#">Descargar CV</a>
+        <a class="ghost" href="#">natachaa0424@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="tab" style="justify-content:center">
+    <span style="color:#fff">Dime el número que te gusta — o qué te gusta de cada una — y con eso rehago el sitio completo.</span>
+  </div>
+
+</body>
+
+</html>
