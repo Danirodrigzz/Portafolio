@@ -60,7 +60,7 @@ const TECH_ICONS = {
 
 const quiet = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const fine = () => window.matchMedia('(pointer: fine)').matches
-const CV_FILE = '/Daniela_Rodriguez_CV.pdf'
+const CV_FILE = '/Daniela_Rodriguez_CV_2026.pdf?v=2026'
 const MAIL = 'natachaa0424@gmail.com'
 
 // Velocidad de scroll compartida (px/frame, suavizada) — la actualiza el
@@ -1811,67 +1811,10 @@ export default function App() {
     }
   }, [])
 
-  // Pila de proyectos tipo "page curl": .works-stack mide
-  // workRows.length * 100vh (espacio de scroll) y .works-stack-sticky queda
-  // fijo bajo el header mientras dura ese scroll. Cada fila i se "curla"
-  // (uProgress 0→1, leído por su LiquidImage) durante el segmento
-  // [i, i+1) de ese scroll: raw = cuánto se entró al stack, en pantallas
-  // completas; progress de la fila i = clamp(raw - i, 0, 1). El propio
-  // LiquidImage suaviza esto con lerp — acá solo se escribe el objetivo.
+  // Layout de scroll normal: las tarjetas se revelan al hacer scroll con Rise
   const stackRef = useRef(null)
   const stickyRef = useRef(null)
   const headerRef = useRef(null)
-  const rowElRefs = useRef([])
-  const foldRefs = useRef([])
-  useEffect(() => {
-    let pending = false
-    const read = () => {
-      pending = false
-      const stack = stackRef.current
-      const sticky = stickyRef.current
-      if (!stack || !sticky) return
-      const headerH = headerRef.current ? headerRef.current.getBoundingClientRect().height : 0
-      sticky.style.top = `${headerH}px`
-      sticky.style.height = `calc(100vh - ${headerH}px)`
-
-      const segment = window.innerHeight || 1
-      const raw = Math.max(0, -stack.getBoundingClientRect().top) / segment
-      const progresses = workRows.map((_, i) => Math.min(1, Math.max(0, raw - i)))
-      workRows.forEach((_, i) => {
-        if (!foldRefs.current[i]) foldRefs.current[i] = { current: 0 }
-        const progress = progresses[i]
-        foldRefs.current[i].current = progress
-
-        // El shader ya desvanece el canvas cerca del final del curl, pero
-        // el texto (título/categoría) es HTML normal, siempre superpuesto
-        // en el mismo lugar para todas las filas. Sin esto, el texto de
-        // TODAS las filas se ve a la vez (mezclado) desde el principio,
-        // porque cada fila "en espera" también arranca en opacidad 1.
-        // fadeOut: se apaga cerca del final de su propio pliegue.
-        // fadeIn: no aparece hasta que la fila anterior va bien avanzada.
-        const el = rowElRefs.current[i]
-        if (el) {
-          const fadeOut = progress <= 0.78 ? 1 : progress >= 0.96 ? 0 : 1 - (progress - 0.78) / (0.96 - 0.78)
-          let fadeIn = 1
-          if (i > 0) {
-            const p = progresses[i - 1]
-            fadeIn = p <= 0.5 ? 0 : p >= 1 ? 1 : (p - 0.5) / 0.5
-          }
-          const domFade = fadeIn * fadeOut
-          el.style.opacity = String(domFade)
-          el.style.pointerEvents = domFade < 0.05 ? 'none' : 'auto'
-        }
-      })
-    }
-    const onScroll = () => { if (pending) return; pending = true; requestAnimationFrame(read) }
-    read()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [filter, workRows.length])
 
   const go = useCallback((id) => {
     // Cerrar el overlay de contacto no libera el scroll del body hasta que
@@ -1923,11 +1866,11 @@ export default function App() {
               ))}
             </ul>
             <div className="top-side">
-              <button onClick={() => setLang((p) => (p === 'es' ? 'en' : 'es'))} data-cursor="EN/ES">{lang.toUpperCase()}</button>
-              <a className="hide-mobile" href={CV_FILE} download data-cursor="↓">{t.top.cv}</a>
+              <a className="top-cv-btn hide-mobile" href={CV_FILE} download="Daniela_Rodriguez_CV_2026.pdf" target="_blank" rel="noopener noreferrer" data-cursor="↓">{t.top.cv}</a>
               <button className="menu-dots" onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} aria-haspopup="true" aria-label={lang === 'es' ? 'Abrir menú' : 'Open menu'}>
                 <span />
               </button>
+              <button className="top-lang-btn" onClick={() => setLang((p) => (p === 'es' ? 'en' : 'es'))} data-cursor="EN/ES">{lang.toUpperCase()}</button>
             </div>
           </div>
         </nav>
@@ -1953,6 +1896,7 @@ export default function App() {
               </li>
             </ul>
             <div className="full-menu-social">
+              <a href={CV_FILE} download="Daniela_Rodriguez_CV_2026.pdf" target="_blank" rel="noopener noreferrer">CV (PDF) ↓</a>
               <a href="https://github.com/Danirodrigzz" target="_blank" rel="noopener noreferrer">GitHub</a>
               <a href="https://www.linkedin.com/in/danielaa-rodriguezz/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
               <a href={`mailto:${MAIL}`}>Email</a>
@@ -1990,31 +1934,26 @@ export default function App() {
                 </Rise>
               </div>
 
-              <div className="works-stack" ref={stackRef} style={{ height: `${workRows.length * 100}vh` }}>
+              <div className="works-stack" ref={stackRef}>
                 <div className="works-stack-sticky" ref={stickyRef}>
-                  {workRows.map((row, ri) => {
-                    if (!foldRefs.current[ri]) foldRefs.current[ri] = { current: 0 }
-                    return (
-                      <div
-                        className="works-row"
-                        key={row.map((w) => w.id).join('-')}
-                        ref={(el) => { rowElRefs.current[ri] = el }}
-                        style={{ zIndex: workRows.length - ri }}
-                      >
-                        {row.map((w, ci) => (
-                          <WorkCard
-                            key={w.id}
-                            w={w}
-                            lang={lang}
-                            t={t.proyectos}
-                            delay={ci * 60}
-                            accent={(ri + ci) % 2 === 0 ? 'accent-tiffany' : 'accent-coral'}
-                            foldRef={foldRefs.current[ri]}
-                          />
-                        ))}
-                      </div>
-                    )
-                  })}
+                  {workRows.map((row, ri) => (
+                    <div
+                      className="works-row"
+                      key={row.map((w) => w.id).join('-')}
+                    >
+                      {row.map((w, ci) => (
+                        <WorkCard
+                          key={w.id}
+                          w={w}
+                          lang={lang}
+                          t={t.proyectos}
+                          delay={ci * 60}
+                          accent={(ri + ci) % 2 === 0 ? 'accent-tiffany' : 'accent-coral'}
+                          foldRef={null}
+                        />
+                      ))}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -2106,8 +2045,11 @@ export default function App() {
               <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" stroke="currentColor" strokeWidth="1.6" fill="none" />
             </svg>
           </button>
-          <span className="landing-copyright">{t.foot.text}</span>
         </div>
+
+        <footer className="site-footer">
+          <span className="site-footer-copy">{t.foot.text}</span>
+        </footer>
       </div>
     </>
   )

@@ -278,7 +278,7 @@ a { color: inherit; text-decoration: none; }
 /* El nombre: serif Didone itálica (Bodoni Moda) — trazos finos/gruesos
    contrastados, aire editorial de revista, distinto a toda la tipografía
    grotesca del resto del sitio a propósito. */
-.brand-name { font-family: 'Bodoni Moda', serif; font-style: italic; font-weight: 600; font-size: 1.8rem; letter-spacing: 0; }
+.brand-name { font-family: 'Bodoni Moda', serif; font-style: italic; font-weight: 600; font-size: 1.35rem; letter-spacing: 0; white-space: nowrap; }
 
 /* El rol: la misma tipografía y el mismo tratamiento que "Proyectos"
    (Bricolage Grotesque, negrita, caja normal, tracking apretado) en vez
@@ -316,16 +316,56 @@ a { color: inherit; text-decoration: none; }
 .top-side { display: flex; align-items: center; gap: 1.25rem; }
 
 .top-side button, .top-side a {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--ink);
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--line-strong);
-  transition: border-color 0.25s;
+  padding: 0.3rem 0.75rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  transition: background 0.22s, color 0.22s;
 }
 
-.top-side button:hover, .top-side a:hover { border-color: var(--ink); }
+.top-side button:hover,
+.top-side a:hover,
+.top-side button:focus,
+.top-side a:focus,
+.top-side button:focus-visible,
+.top-side a:focus-visible,
+.top-cv-btn:hover,
+.top-cv-btn:focus,
+.top-cv-btn:focus-visible,
+.top-cv-btn:visited:hover,
+.top-cv-btn:visited:focus {
+  background: var(--ink) !important;
+  color: #ffffff !important;
+  border-color: var(--ink) !important;
+}
+
+.top-cv-btn:visited {
+  color: var(--ink);
+}
+
+/* Botón de idioma: al extremo derecho del nav, separado del dot-menu */
+.top-lang-btn {
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  color: var(--ink) !important;
+  padding: 0.3rem 0.75rem !important;
+  border: 1.5px solid var(--ink) !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  transition: background 0.22s, color 0.22s !important;
+  margin-left: 0.5rem;
+}
+.top-lang-btn:hover,
+.top-lang-btn:focus,
+.top-lang-btn:focus-visible {
+  background: var(--ink) !important;
+  color: #ffffff !important;
+}
 
 /* Botón redondo de "•••" que abre el menú de pantalla completa. */
 .menu-dots {
@@ -823,10 +863,8 @@ a { color: inherit; text-decoration: none; }
 .proyectos-images { position: relative; }
 
 .proyectos-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  background: transparent;
+  /* estático: el título y los filtros se quedan arriba fijos al cargar
+     y el scroll los deja atrás normalmente */
   padding-top: clamp(3.5rem, 7vw, 5rem);
   padding-bottom: 1rem;
 }
@@ -888,23 +926,20 @@ a { color: inherit; text-decoration: none; }
    más alto = la más vieja) se enrolla por su esquina en el shader de cada
    imagen y va revelando la siguiente, que espera debajo, quieta y nítida.
    El "doblez" no es CSS: es geometría curva real dentro del canvas. */
+/* Tarjetas de proyecto — scroll normal (sin page-curl sticky) */
 .works-stack { position: relative; }
 
 .works-stack-sticky {
-  position: sticky;
-  /* top/height los fija JS con la altura real medida del header sticky */
-  overflow: hidden;
+  /* Ya no es sticky: el layout es un flujo normal de filas */
 }
 
 .works-row {
-  position: absolute;
-  inset: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  align-content: center;
   gap: clamp(1.5rem, 3vw, 2.75rem);
   max-width: 1100px;
   margin-inline: auto;
+  margin-bottom: clamp(1.5rem, 3vw, 2.75rem);
   padding-inline: var(--gutter);
 }
 
@@ -1195,19 +1230,35 @@ a { color: inherit; text-decoration: none; }
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 1rem;
   padding-inline-start: var(--gutter);
   padding-inline-end: clamp(0.85rem, 2.4vw, 1.4rem);
   pointer-events: none;
 }
 
-/* El botón de idioma queda en el centro exacto de la barra (no en el
-   centro del hueco que le dejan los otros dos elementos vía
-   space-between, que varía según su ancho). */
+/* Footer real del documento — copyright visible solo al llegar al final */
+.site-footer {
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+  padding-inline: var(--gutter);
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.site-footer-copy {
+  font-family: var(--body);
+  font-size: 0.85rem;
+  color: #000000 !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* El botón de idioma va en la esquina derecha de la barra fija */
 .foot-lang {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: auto;
 }
 
 .site-foot > * { pointer-events: auto; }
@@ -1635,7 +1686,8 @@ a { color: inherit; text-decoration: none; }
 .landing-copyright {
   font-family: var(--body);
   font-size: 0.78rem;
-  color: var(--ink);
+  color: #000000 !important;
+  font-weight: 600;
 }
 
 /* Vista de contacto — jerarquía: título (itálica, el más grande) a la
