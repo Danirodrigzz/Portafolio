@@ -1256,9 +1256,17 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.02em;
 }
 
-/* El botón de idioma va en la esquina derecha de la barra fija */
-.foot-lang {
+/* El botón de idioma va en la esquina derecha de la barra fija del sitio */
+.site-foot .foot-lang {
   margin-left: auto;
+}
+
+/* En la pantalla de bienvenida y contacto: música a la izquierda, idioma al centro exacto, copyright a la derecha */
+.landing-foot .foot-lang {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: 0;
 }
 
 .site-foot > * { pointer-events: auto; }
